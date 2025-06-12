@@ -1,11 +1,12 @@
-# PDF QUality Assessment for Digitisation batches
+# IMaGe QUality Assessment for Digitisation batches
 
-## What is pdfquad?
+## What is imgquad?
 
-Pdfquad is a simple tool for automated quality assessment of PDF documents in digitisation batches against a user-defined technical profile. It uses [PyMuPDF](https://pymupdf.readthedocs.io/) to parse the PDF file structure and extract some relevant properties. Properties of embedded images are extracted using [Pillow](https://pillow.readthedocs.io/).
+Imgquad is a simple tool for automated quality assessment of images in digitisation batches against a user-defined technical profile. It uses Pillow](https://pillow.readthedocs.io/) to extract the relevant technical properties.
 
 These properties are serialized to a simple XML structure, which is then evaluated against [Schematron rules](http://en.wikipedia.org/wiki/Schematron) that define the expected/required technical characteristics.
 
+<!-- 
 ## Installation
 
 Install the software with the [pip package manager](https://en.wikipedia.org/wiki/Pip_(package_manager)):
@@ -255,4 +256,4 @@ Pdfquad is released under the [Apache License, Version 2.0](https://www.apache.o
 
 - [Schematron](http://en.wikipedia.org/wiki/Schematron)
 
-
+-->
