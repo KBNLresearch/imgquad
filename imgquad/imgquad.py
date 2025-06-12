@@ -74,16 +74,16 @@ def parseCommandLine():
     return args
 
 
-def getFilesFromTree(rootDir, extensionString):
+def getFilesFromTree(rootDir, extensions):
     """Walk down whole directory tree (including all subdirectories) and
-    return list of those files whose extension contains user defined string
+    return list of those files whose extensions match extensions list
     NOTE: directory names are disabled here!!
     implementation is case insensitive (all search items converted to
     upper case internally!
     """
 
-    extensionString = extensionString.upper()
-
+    # Convert extensions to uppercase
+    extensions = [extension.upper() for extension in extensions]
     filesList = []
 
     for dirname, dirnames, filenames in os.walk(rootDir):
@@ -94,8 +94,8 @@ def getFilesFromTree(rootDir, extensionString):
         for filename in filenames:
             thisFile = os.path.join(dirname, filename)
             thisExtension = os.path.splitext(thisFile)[1]
-            thisExtension = thisExtension.upper()
-            if extensionString.strip() == '*' or extensionString in thisExtension:
+            thisExtension = thisExtension.upper().strip('.')
+            if extensions[0].strip() == '*' or thisExtension in extensions:
                 filesList.append(thisFile)
     return filesList
 
@@ -260,9 +260,9 @@ def main():
         writer = csv.writer(fSum)
         writer.writerow(["file", "validationSuccess", "validationOutcome", "noPages", "fileOut"])
 
-    listFiles = getFilesFromTree(batchDir, "jpg")
-    # TODO: support multiple extensions, or don't filter on extensions at all but create separate
-    # profile entries for each extension using fileName / endsWith
+    extensions = ["tif", "tiff", "jpg", "jpeg"]
+    listFiles = getFilesFromTree(batchDir, extensions)
+    # TODO: perhaps define extensions in profile?
 
     # start clock for statistics
     start = time.time()

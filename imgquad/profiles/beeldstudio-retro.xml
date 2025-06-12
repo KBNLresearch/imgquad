@@ -10,7 +10,7 @@ element links a search pattern to a corresponding schema
 -->
 
 <!-- Bogus entry to bypass schematron step -->
-schema type="fileName" match="endswith" pattern=".jpg">bogus.sch</schema> 
+<!-- <schema type="fileName" match="endswith" pattern=".jpg">bogus.sch</schema> -->
 
 <!-- <schema type="fileName" match="endswith" pattern=".jpg">beeldstudio-retro.sch</schema> -->
 <!-- <schema type="fileName" match="endswith" pattern=".tif">beeldstudio-retro.sch</schema> -->
