@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<profile>
+
+<!-- Profile for Beeldstudio Retro. Each "schema"
+element links a search pattern to a corresponding schema
+
+- Value for "type" is either "fileName or "parentDirName"
+- Value for "match" is either "is", "startswith", "endswith" or "contains"
+-->
+
+<!-- Bogus entry to bypass schematron step -->
+schema type="fileName" match="endswith" pattern=".jpg">bogus.sch</schema> 
+
+<!-- <schema type="fileName" match="endswith" pattern=".jpg">beeldstudio-retro.sch</schema> -->
+<!-- <schema type="fileName" match="endswith" pattern=".tif">beeldstudio-retro.sch</schema> -->
+
+</profile>
+
+
