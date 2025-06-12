@@ -2,7 +2,7 @@
 
 ## What is imgquad?
 
-Imgquad is a simple tool for automated quality assessment of images in digitisation batches against a user-defined technical profile. It uses Pillow](https://pillow.readthedocs.io/) to extract the relevant technical properties.
+Imgquad is a simple tool for automated quality assessment of images in digitisation batches against a user-defined technical profile. It uses [Pillow](https://pillow.readthedocs.io/) to extract the relevant technical properties.
 
 These properties are serialized to a simple XML structure, which is then evaluated against [Schematron rules](http://en.wikipedia.org/wiki/Schematron) that define the expected/required technical characteristics.
 
