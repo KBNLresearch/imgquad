@@ -54,7 +54,7 @@ def getBPC(image):
     return bpc
 
 
-def getProperties(PDF):
+def getProperties(file):
     """Extract properties and return result as Element object"""
 
     # Create element object to store all properties
@@ -65,266 +65,81 @@ def getProperties(PDF):
 
     # Create and fill descriptive elements
     fPathElt = etree.Element("filePath")
-    fPathElt.text = PDF
+    fPathElt.text = file
     fSizeElt = etree.Element("fileSize")
-    fSizeElt.text = str(os.path.getsize(PDF))
+    fSizeElt.text = str(os.path.getsize(file))
 
     # Add to properies element
     propertiesElt.append(fPathElt)
     propertiesElt.append(fSizeElt)
 
-    # Parse PDF and check for open password
-    openPasswordElt = etree.Element("openPassword")
+    # Read image
     try:
-        doc = pymupdf.open(PDF)
-        rc = doc.authenticate("whatever")
-        if rc == 0:
-            openPasswordElt.text = str(True)
-            propertiesElt.append(openPasswordElt)
-            logging.warning("PDF has open password")
-            return propertiesElt
-        else:
-            openPasswordElt.text = str(False)
-            propertiesElt.append(openPasswordElt)
+        im = PIL.Image.open(file)
+        im.load()
+        propsImageElt = getImageProperties(im)
+        propertiesElt.append(propsImageElt)
+
     except Exception  as e:
         ex = etree.SubElement(exceptionsFileElt,'exception')
         ex.text = str(e)
         propertiesElt.append(exceptionsFileElt)
-        logging.warning(("while opening PDF: {}").format(str(e)))
+        logging.warning(("while opening image: {}").format(str(e)))
         return propertiesElt
-
-    # Page count
-    pages = doc.page_count
-    # Document metadata
-    metadata = doc.metadata
-    metadataElt = dictionaryToElt('meta', metadata)
-
-    # Read pageMode from document catalog (if it exists)
-    # pageMode is needed for the thumbnail check
-    catXref = doc.pdf_catalog()
-    pageMode = doc.xref_get_key(catXref, "PageMode")
-    pageModeElt = etree.Element("PageMode")
-    if pageMode[0] == 'null':
-        pageModeElt.text = "undefined"
-    else:
-        pageModeElt.text = pageMode[1]
-
-    # Check for digital signatures
-    # signatureFlag. No signatures for value -1; other values (1,3) indicate signatures.
-    signatureFlag = doc.get_sigflags()
-    signatureElt = etree.Element("signatureFlag")
-    signatureElt.text = str(signatureFlag)
-
-    # Element object for storing annotation types
-    annotsElt =  etree.Element("annotations")
-
-    # JavaScript element
-    javaScriptElt = etree.Element("containsJavaScript")
-    javaScriptElt.text = str(False)
-
-    # Iterate over all objects and check for annotations and JavaScript.
-    # This doesn't work for Watermark annotations that are wrapped inside
-    # stream objects, so these are dealt with separately at the page level.
-    try:
-        xreflen = doc.xref_length()
-        for xref in range(1, xreflen):
-            type = doc.xref_get_key(xref, "Type")[1]
-            subtype = doc.xref_get_key(xref, "Subtype")[1]
-            js = doc.xref_get_key(xref, "JS")
-            if type =="/Annot":
-                annotElt = etree.SubElement(annotsElt,'annotation')
-                annotElt.text = subtype
-            if js != ("null", "null"):
-                javaScriptElt.text = str(True)
-    except Exception as e:
-        ex = etree.SubElement(exceptionsFileElt,'exception')
-        ex.text = str(e)
-        logging.warning(("while iterating over PDF objects: {}").format(str(e)))
-
-    # Check for optional content layers
-    optionalContentElt = etree.Element("containsOptionalContent")
-    optionalContentElt.text = str(False)
-    optionalContent = doc.layer_ui_configs()
-    if len(optionalContent) != 0:
-        optionalContentElt.text = str(True)
-
-    # Wrapper element for pages output
-    pagesElt = etree.Element("pages")
-
-    pageNo = 1
-    for page in doc:
-        pageElt = getPageProperties(doc, page, pageNo)
-        # Add page element to pages element
-        pagesElt.append(pageElt)
-        pageNo += 1
-
-    # Add all remaining elements to properties element
-    propertiesElt.append(metadataElt)
-    propertiesElt.append(pageModeElt)
-    propertiesElt.append(signatureElt)
-    propertiesElt.append(optionalContentElt)
-    propertiesElt.append (javaScriptElt)
-    noPagesElt = etree.Element("noPages")
-    noPagesElt.text = str(pages)
-    propertiesElt.append(noPagesElt)
-    propertiesElt.append(pagesElt)
-    propertiesElt.append(annotsElt)
-    propertiesElt.append(exceptionsFileElt)
 
     return propertiesElt
 
 
-def getPageProperties(doc, page, pageNo):
-    """Extract properties for one page and return result as Element object"""
-
-    # Create element object to store all page level properties
-    pageElt = etree.Element("page")
-    pageElt.attrib["number"] = str(pageNo)
-
-    # Iterate over all images on this page
-    images = page.get_images(full=False)
-    for image in images:
-        imageElt = getImageProperties(doc, image, pageNo)
-        # Add image element to page element
-        pageElt.append(imageElt)
-
-    # Check for watermark annotations, which somehow are exclude from document-level check
-    # Source: https://github.com/pymupdf/PyMuPDF/discussions/1855#discussioncomment-3324039
-
-    # Element object for storing annotation types
-    annotsElt =  etree.Element("annotations")
-    page.clean_contents()
-
-    xref = page.get_contents()[0]  # get xref of resulting /Contents object
-    cont = bytearray(page.read_contents())  # read the contents source as a (modifyable) bytearray
-    if cont.find(b"/Subtype/Watermark") > 0:  # this will confirm a marked-content watermark is present
-        annotElt = etree.SubElement(annotsElt,'annotation')
-        annotElt.text = "/Watermark"
-
-    pageElt.append(annotsElt)
-
-    return pageElt
-
-
-def getImageProperties(doc, image, pageNo):
+def getImageProperties(image):
     """Extract image properties and return result as Element object"""
 
-    # Create element object to store all image level properties
-    imageElt = etree.Element("image")
+    # Dictionary for storing image properties
+    propsImage = {}
+    # Element for storing image-level exceptions
+    exceptionsImageElt = etree.Element("exceptions")
 
-    # Extract dictionary-level properties
-    propsDictElt = getImageDictProperties(image, pageNo)
+    propsImage['format'] = image.format
+    width = image.size[0]
+    height = image.size[1]
+    propsImage['width'] = width
+    propsImage['height'] = height
+    propsImage['mode'] = image.mode
+    noComponents = len(image.getbands())
+    propsImage['components']= noComponents
+    bitsPerComponent = getBPC(image)
+    propsImage['bpc'] = bitsPerComponent
 
-    # Check xref and filter values
-    # TODO: in case of multiple Filter values, e.g.:
-    #  /Filter [ /ASCII85Decode /DCTDecode ]
-    # PyMuPDF only returns the first one, which means
-    # check on DCTDecode value will fail! 
-    xref = int(propsDictElt.find('xref').text)
-    filter = propsDictElt.find('filter').text
-
-    # Get raw stream data
-    streamRaw = doc.xref_stream_raw(xref)
-
-    # Decode stream if necessary (TODO: perhaps add support for
-    # AsciiHexDecode, LZWDecode and FlateDecode filters?)
-    if filter == "ASCII85Decode":
-        stream = base64.a85decode(streamRaw, adobe=True)
-    else:
-        stream = streamRaw
-
-    # Extract stream properties
-    propsStreamElt = getImageStreamProperties(stream, pageNo)
-
-    # Add properties to image element
-    imageElt.append(propsDictElt)
-    imageElt.append(propsStreamElt)
-
-    return imageElt
-
-
-def getImageDictProperties(image, pageNo):
-    """Extract image dictionary properties and return result as Element object"""
-
-    # Store properties at PDF object dictionary level to a dictionary
-    propsDict = {}
-    propsDict['xref'] = image[0]
-    #propsDict['smask'] = image[1]
-    propsDict['width'] = image[2]
-    propsDict['height'] = image[3]
-    propsDict['bpc'] = image[4]
-    propsDict['colorspace'] = image[5]
-    propsDict['altcolorspace'] = image[6]
-    #propsDict['name'] = image[7]
-    propsDict['filter'] = image[8]
-
-    # Dictionary to element object
-    propsDictElt = dictionaryToElt('dict', propsDict)
-
-    return propsDictElt
-
-
-def getImageStreamProperties(stream, pageNo):
-    """Extract image stream properties and return result as Element object"""
-
-    # Dictionary for storing stream properties
-    propsStream = {}
-    # Element for storing stream-level exceptions
-    exceptionsStreamElt = etree.Element("exceptions")
-
-    try:
-        im = PIL.Image.open(io.BytesIO(stream))
-        im.load()
-    except Exception as e:
-        ex = etree.SubElement(exceptionsStreamElt,'exception')
-        ex.text = str(e)
-        propsStreamElt = dictionaryToElt('stream', propsStream)
-        propsStreamElt.append(exceptionsStreamElt)
-        logging.warning(("page {} while reading image stream: {}").format(str(pageNo), str(e)))
-        return propsStreamElt
-
-    propsStream['format'] = im.format
-    width = im.size[0]
-    height = im.size[1]
-    propsStream['width'] = width
-    propsStream['height'] = height
-    propsStream['mode'] = im.mode
-    noComponents = len(im.getbands())
-    propsStream['components']= noComponents
-    bitsPerComponent = getBPC(im)
-    propsStream['bpc'] = bitsPerComponent
-
-    if im.format == "JPEG":
+    if image.format == "JPEG":
         try:
             # Estimate JPEG quality using least squares matching
             # against standard quantization tables
-            quality, rmsError, nse = jpegquality.computeJPEGQuality(im)
-            propsStream['JPEGQuality'] = quality
-            propsStream['NSE_JPEGQuality'] = nse
+            quality, rmsError, nse = jpegquality.computeJPEGQuality(image)
+            propsImage['JPEGQuality'] = quality
+            propsImage['NSE_JPEGQuality'] = nse
         except Exception as e:
-            ex = etree.SubElement(exceptionsStreamElt,'exception')
+            ex = etree.SubElement(exceptionsImageElt,'exception')
             ex.text = str(e)
-            logging.warning(("page {} while estimating JPEG quality from image stream: {}").format(str(pageNo), str(e)))
+            logging.warning(("while estimating JPEG quality from image: {}").format(str(e)))
 
-    for key, value in im.info.items():
+    for key, value in image.info.items():
         if isinstance(value, bytes):
-            propsStream[key] = 'bytestream'
+            propsImage[key] = 'bytestream'
         elif key == 'dpi' and isinstance(value, tuple):
-            propsStream['ppi_x'] = value[0]
-            propsStream['ppi_y'] = value[1]
+            propsImage['ppi_x'] = value[0]
+            propsImage['ppi_y'] = value[1]
         elif key == 'jfif_density' and isinstance(value, tuple):
-            propsStream['jfif_density_x'] = value[0]
-            propsStream['jfif_density_y'] = value[1]
+            propsImage['jfif_density_x'] = value[0]
+            propsImage['jfif_density_y'] = value[1]
         elif isinstance(value, tuple):
             # Skip any other properties that return tuples
             pass
         else:
-            propsStream[key] = value
+            propsImage[key] = value
 
     # ICC profile name and description
     iccFlag = False
     try:
-        icc = im.info['icc_profile']
+        icc = image.info['icc_profile']
         iccFlag = True
     except KeyError:
         pass
@@ -332,14 +147,14 @@ def getImageStreamProperties(stream, pageNo):
     if iccFlag:
         try:
             iccProfile = ImageCms.ImageCmsProfile(io.BytesIO(icc))
-            propsStream['icc_profile_name'] = ImageCms.getProfileName(iccProfile).strip()
-            propsStream['icc_profile_description'] = ImageCms.getProfileDescription(iccProfile).strip()
+            propsImage['icc_profile_name'] = ImageCms.getProfileName(iccProfile).strip()
+            propsImage['icc_profile_description'] = ImageCms.getProfileDescription(iccProfile).strip()
         except Exception as e:
-            ex = etree.SubElement(exceptionsStreamElt,'exception')
+            ex = etree.SubElement(exceptionsImageElt,'exception')
             ex.text = str(e)
-            logging.warning(("page {} while extracting ICC profile properties from image stream: {}").format(str(pageNo), str(e)))
+            logging.warning(("while extracting ICC profile properties from image: {}").format(str(e)))
 
-    propsStreamElt = dictionaryToElt('stream', propsStream)
-    propsStreamElt.append(exceptionsStreamElt)
+    propsImageElt = dictionaryToElt('image', propsImage)
+    propsImageElt.append(exceptionsImageElt)
 
-    return propsStreamElt
+    return propsImageElt
