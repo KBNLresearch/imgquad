@@ -262,7 +262,7 @@ def main():
     summaryFile = os.path.join(outDir, summaryFile)
     with open(summaryFile, 'w', newline='', encoding='utf-8') as fSum:
         writer = csv.writer(fSum)
-        writer.writerow(["file", "validationSuccess", "validationOutcome", "noPages", "fileOut"])
+        writer.writerow(["file", "validationSuccess", "validationOutcome", "fileOut"])
 
     listFiles = getFilesFromTree(batchDir, extensions)
     # TODO: perhaps define extensions in profile?
@@ -291,10 +291,6 @@ def main():
         fileResult = processFile(myFile, verboseFlag, schemas)
         if len(fileResult) != 0:
             try:
-                noPages = fileResult.find('properties/noPages').text
-            except AttributeError:
-                noPages = "na"
-            try:
                 validationSuccess = fileResult.find('validationSuccess').text
             except AttributeError:
                 validationSuccess = "na"
@@ -304,7 +300,7 @@ def main():
                 validationOutcome = "na"
             with open(summaryFile, 'a', newline='', encoding='utf-8') as fSum:
                 writer = csv.writer(fSum)
-                writer.writerow([myFile, validationSuccess, validationOutcome, noPages, fileOut])
+                writer.writerow([myFile, validationSuccess, validationOutcome, fileOut])
             # Convert output to XML and add to output file
             outXML = etree.tostring(fileResult,
                                     method='xml',
