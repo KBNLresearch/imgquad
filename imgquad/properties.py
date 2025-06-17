@@ -16,6 +16,7 @@ import base64
 from lxml import etree
 import PIL
 from PIL import ImageCms
+from PIL.ExifTags import TAGS, GPSTAGS, IFD
 from . import jpegquality
 
 
@@ -154,7 +155,39 @@ def getImageProperties(image):
             ex.text = str(e)
             logging.warning(("while extracting ICC profile properties from image: {}").format(str(e)))
 
+    # Exif tags
+    propsExif = image.getexif()
+
+    # Create element object to store Exif tags
+    propsExifElt = etree.Element("exif")
+
+    # Iterate over various Exif tags, code adapted from:
+    # https://stackoverflow.com/a/75357594/1209004
+    for k, v in propsExif.items():
+        tag = TAGS.get(k, k)
+        exifElt = etree.Element(str(tag))
+        exifElt.text = str(v)
+        propsExifElt.append(exifElt)
+
+    for ifd_id in IFD:
+        try:
+            ifd = propsExif.get_ifd(ifd_id)
+
+            if ifd_id == IFD.GPSInfo:
+                resolve = GPSTAGS
+            else:
+                resolve = TAGS
+
+            for k, v in ifd.items():
+                tag = resolve.get(k, k)
+                exifElt = etree.Element(str(tag))
+                exifElt.text = str(v)
+                propsExifElt.append(exifElt)
+        except KeyError:
+            pass
+
     propsImageElt = dictionaryToElt('image', propsImage)
+    propsImageElt.append(propsExifElt)
     propsImageElt.append(exceptionsImageElt)
 
     return propsImageElt
