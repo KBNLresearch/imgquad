@@ -68,12 +68,23 @@ def readProfile(profile, schemasDir):
         msg = "error parsing {}".format(profile)
         shared.errorExit(msg)
 
-    # Output list
-    listOut = []
+    # Output extensions list
+    listExtensions = []
+
+    # Output schemas list
+    listSchemas = []
+
+    # Locate extension elements
+    extensions = prof.findall("extension")
+
+    # Add extensions to output list
+    for extension in extensions:
+        listExtensions.append(extension.text)
 
     # Locate schema elements
     schemas = prof.findall("schema")
 
+    # Add schemas to output list
     for schema in schemas:
         try:
             mType = schema.attrib["type"]
@@ -100,9 +111,9 @@ def readProfile(profile, schemasDir):
         schematronFile = os.path.join(schemasDir, schema.text)
         shared.checkFileExists(schematronFile)
 
-        listOut.append([mType, mMatch, mPattern, schematronFile])
+        listSchemas.append([mType, mMatch, mPattern, schematronFile])
 
-    return listOut
+    return listExtensions, listSchemas
 
 
 def readAsLXMLElt(xmlFile):

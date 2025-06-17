@@ -9,6 +9,12 @@ element links a search pattern to a corresponding schema
 - Value for "match" is either "is", "startswith", "endswith" or "contains"
 -->
 
+<!-- File extensions that will be processed (case insensitive) -->
+<extension>tif</extension>
+<extension>tiff</extension>
+<extension>jpg</extension>
+<extension>jpeg</extension>
+
 <!-- Bogus entry to bypass schematron step -->
 <!-- <schema type="fileName" match="endswith" pattern=".jpg">bogus.sch</schema> -->
 

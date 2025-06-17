@@ -250,8 +250,12 @@ def main():
                         level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s')
 
-    # Get schema patterns and locations from profile
-    schemas = schematron.readProfile(profile, schemasDir)
+    # Get file extensions, schema patterns and locations from profile
+    extensions, schemas = schematron.readProfile(profile, schemasDir)
+
+    if len(extensions) == 0:
+        msg = ("no file extensions defined in profile")
+        shared.errorExit(msg)
 
     # Summary file with quality check status (pass/fail) and no of pages
     summaryFile = os.path.normpath(("{}_summary.csv").format(prefixBatch))
@@ -260,7 +264,6 @@ def main():
         writer = csv.writer(fSum)
         writer.writerow(["file", "validationSuccess", "validationOutcome", "noPages", "fileOut"])
 
-    extensions = ["tif", "tiff", "jpg", "jpeg"]
     listFiles = getFilesFromTree(batchDir, extensions)
     # TODO: perhaps define extensions in profile?
 
