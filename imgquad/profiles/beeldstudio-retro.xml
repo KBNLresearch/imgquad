@@ -16,7 +16,7 @@ element links a search pattern to a corresponding schema
 <extension>jpeg</extension>
 
 <!-- Schematron schema definition -->
-<schema type="fileName" match="endswith" pattern=".jpg">beeldstudio-retro.sch</schema>
+<schema>beeldstudio-retro.sch</schema>
 
 </profile>
 

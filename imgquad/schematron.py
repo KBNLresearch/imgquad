@@ -81,6 +81,9 @@ def readProfile(profile, schemasDir):
     for extension in extensions:
         listExtensions.append(extension.text)
 
+    # Flag that indicates use of "type" attribute
+    hasType = True
+
     # Locate schema elements
     schemas = prof.findall("schema")
 
@@ -92,21 +95,26 @@ def readProfile(profile, schemasDir):
                 msg = "'{}' is not a valid 'type' value".format(mType)
                 shared.errorExit(msg)
         except KeyError:
-            msg = "missing 'type' attribute in profile {}".format(profile)
-            shared.errorExit(msg)
-        try:
-            mMatch = schema.attrib["match"]
-            if mMatch not in ["is", "startswith", "endswith", "contains"]:
-                msg = "'{}' is not a valid 'match' value".format(mMatch)
+            hasType = False
+
+        if hasType:
+            try:
+                mMatch = schema.attrib["match"]
+                if mMatch not in ["is", "startswith", "endswith", "contains"]:
+                    msg = "'{}' is not a valid 'match' value".format(mMatch)
+                    shared.errorExit(msg)
+            except KeyError:
+                msg = "missing 'match' attribute in profile {}".format(profile)
                 shared.errorExit(msg)
-        except KeyError:
-            msg = "missing 'match' attribute in profile {}".format(profile)
-            shared.errorExit(msg)
-        try:
-            mPattern = schema.attrib["pattern"]
-        except KeyError:
-            msg = "missing 'pattern' attribute in profile {}".format(profile)
-            shared.errorExit(msg)
+            try:
+                mPattern = schema.attrib["pattern"]
+            except KeyError:
+                msg = "missing 'pattern' attribute in profile {}".format(profile)
+                shared.errorExit(msg)
+        else:
+            mType = None
+            mMatch = None
+            mPattern = None
 
         schematronFile = os.path.join(schemasDir, schema.text)
         shared.checkFileExists(schematronFile)
@@ -156,6 +164,9 @@ def findSchema(PDF, schemas):
         mMatch = schema[1]
         mPattern = schema[2]
         mSchema = schema[3]
+        if mType == None:
+            schemaMatch = mSchema
+            schemaMatchFlag = True
         if mType == "parentDirName" and mMatch == "is":
             if parentDir == mPattern:
                 schemaMatch = mSchema
