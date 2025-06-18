@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<!-- Schematron rules for DBNL PDFs -->
+<!-- Schematron rules for  Beeldstudio Retro files-->
 
 <s:schema xmlns:s="http://purl.oclc.org/dsdl/schematron">
 
 <s:pattern>
-    <s:title>DBNL profile checks</s:title>
+    <s:title>Beeldstudio Retro checks</s:title>
 
     <!-- Checks at properties level -->
     <s:rule context="//properties">

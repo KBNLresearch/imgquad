@@ -67,11 +67,14 @@ def getProperties(file):
     # Create and fill descriptive elements
     fPathElt = etree.Element("filePath")
     fPathElt.text = file
+    fNameElt = etree.Element("fileName")
+    fNameElt.text = os.path.basename(file)
     fSizeElt = etree.Element("fileSize")
     fSizeElt.text = str(os.path.getsize(file))
 
     # Add to properies element
     propertiesElt.append(fPathElt)
+    propertiesElt.append(fNameElt)
     propertiesElt.append(fSizeElt)
 
     # Read image
