@@ -43,7 +43,7 @@ def parseCommandLine():
                                 help="batch directory")
     parser_process.add_argument('--maxfiles', '-x',
                                 action="store",
-                                default=10,
+                                default=100,
                                 help="maximum number of reported images per output file; for larger numbers \
                                     output is split across multiple files")
     parser_process.add_argument('--prefixout', '-p',
