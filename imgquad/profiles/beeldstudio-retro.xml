@@ -18,6 +18,7 @@ element links a search pattern to a corresponding schema
 <!-- Properties that are written to summary file -->
 <summaryProperty>properties/image/format</summaryProperty>
 <summaryProperty>properties/image/exif/Compression</summaryProperty>
+<summaryProperty>properties/image/components</summaryProperty>
 <summaryProperty>properties/image/bpc</summaryProperty>
 <summaryProperty>properties/image/icc_profile_name</summaryProperty>
 <summaryProperty>properties/image/exif/ColorSpace</summaryProperty>

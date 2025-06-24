@@ -8,38 +8,34 @@
 
     <!-- Checks at image level -->
     <s:rule context="//properties/image">
-        <!-- Check on expected image format -->
+        <!-- Checks on expected image format -->
+        <s:assert test="(count(format) > 0)">Missing format tag</s:assert>
         <s:assert test="(format = 'JPEG') or (format = 'TIFF')">Unexpected image format (expected: JPEG or TIFF)</s:assert>
-        <!-- Check on horizontal and vertical resolution (with tolerance of +/- 1 ppi) -->
-        <s:assert test="(jfif_density_x &gt;= 299) and
-        (jfif_density_x &lt;= 301)">Horizontal resolution outside permitted range</s:assert>
-        <s:assert test="(jfif_density_y &gt;= 299) and
-        (jfif_density_y &lt;= 301)">Vertical resolution outside permitted range</s:assert>
-        <!-- Check on expected number of color components -->
-        <s:assert test="(components = '3')">Unexpected number of color components (expected: 3)</s:assert>
-        <!-- Check on JPEG compression quality level (with tolerance of +/- 2 levels) -->
-        <s:assert test="(JPEGQuality &gt;= 48) and
-        (JPEGQuality &lt;= 52)">JPEG compression quality outside permitted range</s:assert>
-        <!-- Check on absence of any exceptions while parsing the image stream -->
-        <s:assert test="(count(exceptions/exception) = 0)">Properties extraction at stream level resulted in one or more exceptions</s:assert>
+        <!-- Check on icc profile -->
+        <s:assert test="(count(icc_profile) > 0)">Missing ICC profile</s:assert>
+        <!-- Check on absence of any exceptions while parsing the image -->
+        <s:assert test="(count(exceptions/exception) = 0)">Properties extraction at image level resulted in one or more exceptions</s:assert>
     </s:rule>
 
     <!-- Checks at Exif tag level -->
-    <s:rule context="//properties/image/exif">
-        <!-- Check on expected format of the image stream -->
-        <s:assert test="(format = 'JPEG') or (format = 'TIFF')">Unexpected image format (expected: JPEG or TIFF)</s:assert>
-        <!-- Check on horizontal and vertical resolution (with tolerance of +/- 1 ppi) -->
-        <s:assert test="(jfif_density_x &gt;= 299) and
-        (jfif_density_x &lt;= 301)">Horizontal resolution outside permitted range</s:assert>
-        <s:assert test="(jfif_density_y &gt;= 299) and
-        (jfif_density_y &lt;= 301)">Vertical resolution outside permitted range</s:assert>
-        <!-- Check on expected number of color components -->
-        <s:assert test="(components = '3')">Unexpected number of color components (expected: 3)</s:assert>
-        <!-- Check on JPEG compression quality level (with tolerance of +/- 2 levels) -->
-        <s:assert test="(JPEGQuality &gt;= 48) and
-        (JPEGQuality &lt;= 52)">JPEG compression quality outside permitted range</s:assert>
-        <!-- Check on absence of any exceptions while parsing the image stream -->
-        <s:assert test="(count(exceptions/exception) = 0)">Properties extraction at stream level resulted in one or more exceptions</s:assert>
+        <s:rule context="//properties/image/exif">
+        <!-- Checks for X- and Y resolution tags -->
+        <s:assert test="(count(XResolution) > 0)">Missing XResolution tag</s:assert>
+        <s:assert test="(count(YResolution) > 0)">Missing YResolution tag</s:assert>
+        <!-- Checks for camera related tags -->
+        <s:assert test="(count(Make) > 0)">Missing Make tag</s:assert>
+        <s:assert test="(count(Model) > 0)">Missing Model tag</s:assert>
+        <s:assert test="(count(LensMake) > 0)">Missing LensMake tag</s:assert>
+        <s:assert test="(count(LensSpecification) > 0)">Missing LensSpecification tag</s:assert>
+        <s:assert test="(count(LensModel) > 0)">Missing LensModel tag</s:assert>
+        <s:assert test="(count(LensSerialNumber) > 0)">Missing LensSerialNumber tag</s:assert>
+        <!-- Checks for camera settings tags -->
+        <s:assert test="(count(ExposureTime) > 0)">Missing ExposureTime tag</s:assert>
+        <s:assert test="(count(FNumber) > 0)">Missing FNumber tag</s:assert>
+        <s:assert test="(count(ISOSpeedRatings) > 0)">Missing ISOSpeedRatings tag</s:assert>
+        <s:assert test="(count(WhiteBalance) > 0)">Missing WhiteBalance tag</s:assert>
+        <!-- Check for Software tags -->
+        <s:assert test="(count(Software) > 0)">Missing Software tag</s:assert>
     </s:rule>
 
 </s:pattern>

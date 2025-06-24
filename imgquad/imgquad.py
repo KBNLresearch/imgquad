@@ -164,11 +164,11 @@ def processFile(file, verboseFlag, schemas):
 
 
 def findEltValue(element, path):
-    """ Return text of path in element, or "na" if it doesn't exist """
+    """ Return text of path in element, or "n/a" if it doesn't exist """
     try:
         result = element.find(path).text
     except AttributeError:
-        result = "na"
+        result = "n/a"
     
     return result
 
@@ -208,14 +208,13 @@ def main():
     if not os.path.isdir(schemasDir):
         shutil.copytree(schemasDirPackage, schemasDir)
 
-    # Check if all profiles and schemas can be parsed
-    schematron.checkProfilesSchemas(profilesDir, schemasDir)
-
     # Get input from command line
     args = parseCommandLine()
     action = args.subcommand
 
     if action == "process":
+        # Check if all profiles and schemas can be parsed
+        schematron.checkProfilesSchemas(profilesDir, schemasDir)
         profile = os.path.basename(args.profile)
         batchDir = os.path.normpath(args.batchDir)
         prefixOut = args.prefixout
