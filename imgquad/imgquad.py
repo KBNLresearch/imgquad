@@ -163,6 +163,16 @@ def processFile(file, verboseFlag, schemas):
     return fileElt
 
 
+def findEltValue(element, path):
+    """ Return text of path in element, or "na" if it doesn't exist """
+    try:
+        result = element.find(path).text
+    except AttributeError:
+        result = "na"
+    
+    return result
+
+
 def main():
     """Main function"""
 
@@ -262,7 +272,28 @@ def main():
     summaryFile = os.path.join(outDir, summaryFile)
     with open(summaryFile, 'w', newline='', encoding='utf-8') as fSum:
         writer = csv.writer(fSum)
-        writer.writerow(["file", "validationSuccess", "validationOutcome", "fileOut"])
+        writer.writerow(["file",
+                         "validationSuccess",
+                         "validationOutcome",
+                         "fileOut",
+                         "format",
+                         "compression",
+                         "BPC",
+                         "icc_profile_name",
+                         "ColorSpace",
+                         "xResolution",
+                         "yResolution",
+                         "Make",
+                         "Model"
+                         "LensMake",
+                         "LensSpecification",
+                         "LensModel",
+                         "LensSerialNumber",
+                         "ExposureTime",
+                         "FNumber",
+                         "ISOSpeedRatings",
+                         "WhiteBalance",
+                         "Software"])
 
     listFiles = getFilesFromTree(batchDir, extensions)
     # TODO: perhaps define extensions in profile?
@@ -290,17 +321,49 @@ def main():
         myFile = os.path.abspath(myFile)
         fileResult = processFile(myFile, verboseFlag, schemas)
         if len(fileResult) != 0:
-            try:
-                validationSuccess = fileResult.find('validationSuccess').text
-            except AttributeError:
-                validationSuccess = "na"
-            try:
-                validationOutcome = fileResult.find('validationOutcome').text
-            except AttributeError:
-                validationOutcome = "na"
+            validationSuccess = findEltValue(fileResult, 'validationSuccess')
+            validationOutcome = findEltValue(fileResult, 'validationOutcome')
             with open(summaryFile, 'a', newline='', encoding='utf-8') as fSum:
+                format = findEltValue(fileResult, 'properties/image/format')
+                compression = findEltValue(fileResult, 'properties/image/exif/Compression')
+                bpc = findEltValue(fileResult, 'properties/image/bpc')
+                icc_profile_name = findEltValue(fileResult, 'properties/image/icc_profile_name')
+                colorspace = findEltValue(fileResult, 'properties/image/exif/ColorSpace')
+                xResolution = findEltValue(fileResult, 'properties/image/exif/XResolution')
+                yResolution = findEltValue(fileResult, 'properties/image/exif/YResolution')
+                make = findEltValue(fileResult, 'properties/image/exif/Make') 
+                model = findEltValue(fileResult, 'properties/image/exif/Model') 
+                lensMake = findEltValue(fileResult, 'properties/image/exif/LensMake')
+                lensSpecification = findEltValue(fileResult, 'properties/image/exif/LensSpecification')
+                lensModel = findEltValue(fileResult, 'properties/image/exif/LensModel')
+                lensSerialNumber = findEltValue(fileResult, 'properties/image/exif/LensSerialNumber')
+                exposureTime = findEltValue(fileResult, 'properties/image/exif/ExposureTime')
+                fNumber = findEltValue(fileResult, 'properties/image/exif/FNumber')
+                ISOSpeedRatings = findEltValue(fileResult, 'properties/image/exif/ISOSpeedRatings')
+                whiteBalance = findEltValue(fileResult, 'properties/image/exif/WhiteBalance')
+                software = findEltValue(fileResult, 'properties/image/exif/Software')
                 writer = csv.writer(fSum)
-                writer.writerow([myFile, validationSuccess, validationOutcome, fileOut])
+                writer.writerow([myFile,
+                                 validationSuccess,
+                                 validationOutcome,
+                                 fileOut,
+                                 format,
+                                 compression,
+                                 bpc,
+                                 icc_profile_name,
+                                 colorspace,
+                                 xResolution,
+                                 yResolution,
+                                 make,
+                                 model,
+                                 lensMake,
+                                 lensModel,
+                                 lensSerialNumber,
+                                 exposureTime,
+                                 fNumber,
+                                 ISOSpeedRatings,
+                                 whiteBalance,
+                                 software])
             # Convert output to XML and add to output file
             outXML = etree.tostring(fileResult,
                                     method='xml',
