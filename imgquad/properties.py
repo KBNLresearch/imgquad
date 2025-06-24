@@ -129,6 +129,10 @@ def getImageProperties(image):
         if key == 'exif':
             # Skip any exif elements as Exif tags are added later
             pass
+        elif key == 'photoshop':
+            # Skip photoshop elements, because they tend to be large and I don't know how to
+            # properly decode them
+            pass
         elif isinstance(value, bytes):
             propsImage[key] = 'bytestream'
         elif key == 'dpi' and isinstance(value, tuple):
