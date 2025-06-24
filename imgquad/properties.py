@@ -177,7 +177,11 @@ def getImageProperties(image):
         tag = TAGS.get(k, k)
         exifElt = etree.Element(str(tag))
         exifElt.text = str(v)
-        propsExifElt.append(exifElt)
+        if tag == 'XMLPacket':
+            # Skip XMLPacket tag, which contains raw XMP metadata
+            pass
+        else:
+            propsExifElt.append(exifElt)
 
     for ifd_id in IFD:
         try:
