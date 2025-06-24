@@ -126,7 +126,10 @@ def getImageProperties(image):
             logging.warning(("while estimating JPEG quality from image: {}").format(str(e)))
 
     for key, value in image.info.items():
-        if isinstance(value, bytes):
+        if key == 'exif':
+            # Skip any exif elements as Exif tags are added later
+            pass
+        elif isinstance(value, bytes):
             propsImage[key] = 'bytestream'
         elif key == 'dpi' and isinstance(value, tuple):
             propsImage['ppi_x'] = value[0]
