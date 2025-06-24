@@ -71,6 +71,9 @@ def readProfile(profile, schemasDir):
     # Output extensions list
     listExtensions = []
 
+    # Output properties list
+    listProperties = []
+
     # Output schemas list
     listSchemas = []
 
@@ -80,6 +83,13 @@ def readProfile(profile, schemasDir):
     # Add extensions to output list
     for extension in extensions:
         listExtensions.append(extension.text)
+
+    # Locate summary properties elements
+    sProperties = prof.findall("summaryProperty")
+
+    # Add properrties to output list
+    for property in sProperties:
+        listProperties.append(property.text)
 
     # Flag that indicates use of "type" attribute
     hasType = True
@@ -121,7 +131,7 @@ def readProfile(profile, schemasDir):
 
         listSchemas.append([mType, mMatch, mPattern, schematronFile])
 
-    return listExtensions, listSchemas
+    return listExtensions, listProperties, listSchemas
 
 
 def readAsLXMLElt(xmlFile):

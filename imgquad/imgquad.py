@@ -260,40 +260,27 @@ def main():
                         level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s')
 
-    # Get file extensions, schema patterns and locations from profile
-    extensions, schemas = schematron.readProfile(profile, schemasDir)
+    # Get file extensions, summary properties schema patterns and locations from profile
+    extensions, summaryProperties, schemas = schematron.readProfile(profile, schemasDir)
 
     if len(extensions) == 0:
         msg = ("no file extensions defined in profile")
         shared.errorExit(msg)
 
-    # Summary file with quality check status (pass/fail) and no of pages
+    # Summary file with quality check status (pass/fail) and properties that are selected in profile
     summaryFile = os.path.normpath(("{}_summary.csv").format(prefixBatch))
     summaryFile = os.path.join(outDir, summaryFile)
+
+    # List with names of output properties
+    propertyNames = []
+    for property in summaryProperties:
+        propertyNames.append(property.split('/')[-1])
+
+    summaryHeadings = ["file", "validationSuccess", "validationOutcome", "fileOut"] + propertyNames
+
     with open(summaryFile, 'w', newline='', encoding='utf-8') as fSum:
         writer = csv.writer(fSum)
-        writer.writerow(["file",
-                         "validationSuccess",
-                         "validationOutcome",
-                         "fileOut",
-                         "format",
-                         "compression",
-                         "BPC",
-                         "icc_profile_name",
-                         "ColorSpace",
-                         "xResolution",
-                         "yResolution",
-                         "Make",
-                         "Model"
-                         "LensMake",
-                         "LensSpecification",
-                         "LensModel",
-                         "LensSerialNumber",
-                         "ExposureTime",
-                         "FNumber",
-                         "ISOSpeedRatings",
-                         "WhiteBalance",
-                         "Software"])
+        writer.writerow(summaryHeadings)
 
     listFiles = getFilesFromTree(batchDir, extensions)
     # TODO: perhaps define extensions in profile?
@@ -324,46 +311,14 @@ def main():
             validationSuccess = findEltValue(fileResult, 'validationSuccess')
             validationOutcome = findEltValue(fileResult, 'validationOutcome')
             with open(summaryFile, 'a', newline='', encoding='utf-8') as fSum:
-                format = findEltValue(fileResult, 'properties/image/format')
-                compression = findEltValue(fileResult, 'properties/image/exif/Compression')
-                bpc = findEltValue(fileResult, 'properties/image/bpc')
-                icc_profile_name = findEltValue(fileResult, 'properties/image/icc_profile_name')
-                colorspace = findEltValue(fileResult, 'properties/image/exif/ColorSpace')
-                xResolution = findEltValue(fileResult, 'properties/image/exif/XResolution')
-                yResolution = findEltValue(fileResult, 'properties/image/exif/YResolution')
-                make = findEltValue(fileResult, 'properties/image/exif/Make') 
-                model = findEltValue(fileResult, 'properties/image/exif/Model') 
-                lensMake = findEltValue(fileResult, 'properties/image/exif/LensMake')
-                lensSpecification = findEltValue(fileResult, 'properties/image/exif/LensSpecification')
-                lensModel = findEltValue(fileResult, 'properties/image/exif/LensModel')
-                lensSerialNumber = findEltValue(fileResult, 'properties/image/exif/LensSerialNumber')
-                exposureTime = findEltValue(fileResult, 'properties/image/exif/ExposureTime')
-                fNumber = findEltValue(fileResult, 'properties/image/exif/FNumber')
-                ISOSpeedRatings = findEltValue(fileResult, 'properties/image/exif/ISOSpeedRatings')
-                whiteBalance = findEltValue(fileResult, 'properties/image/exif/WhiteBalance')
-                software = findEltValue(fileResult, 'properties/image/exif/Software')
+                propValues = []
+                for property in summaryProperties:
+                    propertyValue = findEltValue(fileResult, property)
+                    propValues.append(propertyValue)
+
                 writer = csv.writer(fSum)
-                writer.writerow([myFile,
-                                 validationSuccess,
-                                 validationOutcome,
-                                 fileOut,
-                                 format,
-                                 compression,
-                                 bpc,
-                                 icc_profile_name,
-                                 colorspace,
-                                 xResolution,
-                                 yResolution,
-                                 make,
-                                 model,
-                                 lensMake,
-                                 lensModel,
-                                 lensSerialNumber,
-                                 exposureTime,
-                                 fNumber,
-                                 ISOSpeedRatings,
-                                 whiteBalance,
-                                 software])
+                myRow = [myFile, validationSuccess, validationOutcome, fileOut] + propValues
+                writer.writerow(myRow)
             # Convert output to XML and add to output file
             outXML = etree.tostring(fileResult,
                                     method='xml',

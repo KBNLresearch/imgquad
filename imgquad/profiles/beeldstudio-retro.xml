@@ -15,6 +15,26 @@ element links a search pattern to a corresponding schema
 <extension>jpg</extension>
 <extension>jpeg</extension>
 
+<!-- Properties that are written to summary file -->
+<summaryProperty>properties/image/format</summaryProperty>
+<summaryProperty>properties/image/exif/Compression</summaryProperty>
+<summaryProperty>properties/image/bpc</summaryProperty>
+<summaryProperty>properties/image/icc_profile_name</summaryProperty>
+<summaryProperty>properties/image/exif/ColorSpace</summaryProperty>
+<summaryProperty>properties/image/exif/XResolution</summaryProperty>
+<summaryProperty>properties/image/exif/YResolution</summaryProperty>
+<summaryProperty>properties/image/exif/Make</summaryProperty>
+<summaryProperty>properties/image/exif/Model</summaryProperty>
+<summaryProperty>properties/image/exif/LensMake</summaryProperty>
+<summaryProperty>properties/image/exif/LensSpecification</summaryProperty>
+<summaryProperty>properties/image/exif/LensModel</summaryProperty>
+<summaryProperty>properties/image/exif/LensSerialNumber</summaryProperty>
+<summaryProperty>properties/image/exif/ExposureTime</summaryProperty>
+<summaryProperty>properties/image/exif/FNumber</summaryProperty>
+<summaryProperty>properties/image/exif/ISOSpeedRatings</summaryProperty>
+<summaryProperty>properties/image/exif/WhiteBalance</summaryProperty>
+<summaryProperty>properties/image/exif/Software</summaryProperty>
+
 <!-- Schematron schema definition -->
 <schema>beeldstudio-retro.sch</schema>
 
