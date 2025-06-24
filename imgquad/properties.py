@@ -200,18 +200,12 @@ def getImageProperties(image):
         except KeyError:
             pass
 
-    # XMP metadata
-    propsXMP = image.getxmp()
+    # XMP metadata (returns dictionary)
+    xmp = image.getxmp()
 
-    # Create element object to store XMP tags
-    propsXMPElt = etree.Element("xmp")
-
-    # Iterate over XMP tags
-    for k, v in propsXMP.items():
-        tag = TAGS.get(k, k)
-        xmpElt = etree.Element(str(tag))
-        xmpElt.text = str(v)
-        propsXMPElt.append(xmpElt)
+    # Dictionary to element
+    # TODO needs more work, as this doesn't result in elements for individual XMP tags!
+    propsXMPElt = dictionaryToElt('xmp', xmp)
 
     propsImageElt = dictionaryToElt('image', propsImage)
     propsImageElt.append(propsExifElt)
