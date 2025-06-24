@@ -20,7 +20,8 @@ def find_version(*file_paths):
     raise RuntimeError("Unable to find version string.")
 
 INSTALL_REQUIRES = ['setuptools',
-                    'lxml', 
+                    'lxml'
+                    'defusedxml', 
                     'pillow>=9.0.0']
 PYTHON_REQUIRES = '>=3.8, <4'
 
