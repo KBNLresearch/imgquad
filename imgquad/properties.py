@@ -192,6 +192,7 @@ def getImageProperties(image):
 
     # Iterate over various Exif tags, code adapted from:
     # https://stackoverflow.com/a/75357594/1209004
+
     for k, v in propsExif.items():
         tag = TAGS.get(k, k)
         exifElt = etree.Element(str(tag))
@@ -203,6 +204,10 @@ def getImageProperties(image):
             propsExifElt.append(exifElt)
 
     for ifd_id in IFD:
+        # Iterate over image file directories
+        # NOTE: this can result in duplicate Exif Tags. Example: Thumbnail image is implemented as 
+        # separate IFD, with XResolution / YResolution tags whose values are different from
+        # main resolution tags. Currently these are all lumped together in the output.
         try:
             ifd = propsExif.get_ifd(ifd_id)
 
@@ -218,6 +223,7 @@ def getImageProperties(image):
                 propsExifElt.append(exifElt)
         except KeyError:
             pass
+    
 
     # XMP metadata (returns dictionary)
     # TODO not supported right now, might add this later
@@ -225,7 +231,6 @@ def getImageProperties(image):
 
     # Dictionary to element
     # propsXMPElt = dictionaryToEltNew('xmp', xmp)
-
 
     propsImageElt = dictionaryToElt('image', propsImage)
     propsImageElt.append(propsExifElt)
