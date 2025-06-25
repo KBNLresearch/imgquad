@@ -10,6 +10,7 @@ Image properties extraction module
 
 """
 import os
+import sys #remove, test only
 import io
 import logging
 import base64
@@ -27,6 +28,24 @@ def dictionaryToElt(name, dictionary):
         child = etree.Element(key)
         child.text = str(value)
         elt.append(child)
+    return elt
+
+
+def dictionaryToEltNew(name, dictionary):
+    """Create Element object from dictionary, with recursion
+    TODO doesn't work yet!"""
+    elt = etree.Element(name)
+
+    for k, v in dictionary.items():
+        child = etree.Element(k)
+        if isinstance(v, dict):
+            dictionaryToEltNew(str(k),v)
+            cChild = etree.Element(k)
+            child.append(cChild)
+        else:
+            child.text = str(v)
+        elt.append(child)
+
     return elt
 
 
@@ -201,15 +220,16 @@ def getImageProperties(image):
             pass
 
     # XMP metadata (returns dictionary)
-    xmp = image.getxmp()
+    # TODO not supported right now, might add this later
+    # xmp = image.getxmp()
 
     # Dictionary to element
-    # TODO needs more work, as this doesn't result in elements for individual XMP tags!
-    propsXMPElt = dictionaryToElt('xmp', xmp)
+    # propsXMPElt = dictionaryToEltNew('xmp', xmp)
+
 
     propsImageElt = dictionaryToElt('image', propsImage)
     propsImageElt.append(propsExifElt)
-    propsImageElt.append(propsXMPElt)
+    #propsImageElt.append(propsXMPElt)
     propsImageElt.append(exceptionsImageElt)
 
     return propsImageElt
