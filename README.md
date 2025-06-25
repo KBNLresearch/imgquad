@@ -155,6 +155,8 @@ In the example, there's only one  *schema* element, which is used for all proces
 - The **match** attribute defines whether the matching pattern with the file or directory name is exact ("is") or partial ("startswith", "endswith", "contains".)
 - The **pattern** attribute defines a text string that is used for the match.
 
+See the [pdfquad documentation](https://github.com/KBNLresearch/pdfquad#profiles) for an example of how these attributes are used.
+
 ### Available profiles
 
 Currently the following profiles are included:
