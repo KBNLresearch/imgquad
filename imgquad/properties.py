@@ -25,11 +25,12 @@ def dictionaryToElt(name, dictionary):
     elt = etree.Element(name)
 
     for k, v in dictionary.items():
-        child = etree.Element(k)
+        #child = etree.Element(k)
         if isinstance(v, dict):
-            cChild = dictionaryToElt(str(k),v)
-            child.append(cChild)
+            child = dictionaryToElt(str(k),v)
+            elt.append(child)
         else:
+            child = etree.Element(k)
             child.text = str(v)
         elt.append(child)
 
