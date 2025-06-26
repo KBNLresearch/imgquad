@@ -20,27 +20,14 @@ from PIL import ImageCms
 from PIL.ExifTags import TAGS, GPSTAGS, IFD
 from . import jpegquality
 
-
 def dictionaryToElt(name, dictionary):
-    """Create Element object from dictionary"""
-    elt = etree.Element(name)
-    for key, value in dictionary.items():
-        child = etree.Element(key)
-        child.text = str(value)
-        elt.append(child)
-    return elt
-
-
-def dictionaryToEltNew(name, dictionary):
-    """Create Element object from dictionary, with recursion
-    TODO doesn't work yet!"""
+    """Create Element object from dictionary, with recursion"""
     elt = etree.Element(name)
 
     for k, v in dictionary.items():
         child = etree.Element(k)
         if isinstance(v, dict):
-            dictionaryToEltNew(str(k),v)
-            cChild = etree.Element(k)
+            cChild = dictionaryToElt(str(k),v)
             child.append(cChild)
         else:
             child.text = str(v)
@@ -226,15 +213,14 @@ def getImageProperties(image):
     
 
     # XMP metadata (returns dictionary)
-    # TODO not supported right now, might add this later
-    # xmp = image.getxmp()
+    xmp = image.getxmp()
 
     # Dictionary to element
-    # propsXMPElt = dictionaryToEltNew('xmp', xmp)
+    propsXMPElt = dictionaryToElt('xmp', xmp)
 
     propsImageElt = dictionaryToElt('image', propsImage)
     propsImageElt.append(propsExifElt)
-    #propsImageElt.append(propsXMPElt)
+    propsImageElt.append(propsXMPElt)
     propsImageElt.append(exceptionsImageElt)
 
     return propsImageElt
