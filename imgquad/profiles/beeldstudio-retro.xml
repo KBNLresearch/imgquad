@@ -17,15 +17,24 @@ element links a search pattern to a corresponding schema
 
 <!-- Properties that are written to summary file -->
 <summaryProperty>properties/image/format</summaryProperty>
-<summaryProperty>properties/image/exif/Compression</summaryProperty>
 <summaryProperty>properties/image/components</summaryProperty>
 <summaryProperty>properties/image/bpc</summaryProperty>
 <summaryProperty>properties/image/icc_profile_name</summaryProperty>
-<summaryProperty>properties/image/exif/ColorSpace</summaryProperty>
 <summaryProperty>properties/image/exif/XResolution</summaryProperty>
 <summaryProperty>properties/image/exif/YResolution</summaryProperty>
-<summaryProperty>properties/image/exif/Make</summaryProperty>
+<summaryProperty>properties/image/exif/ResolutionUnit</summaryProperty>
+<summaryProperty>properties/image/exif/ImageWidth</summaryProperty>
+<summaryProperty>properties/image/exif/ImageLength</summaryProperty>
+<summaryProperty>properties/image/exif/ColorSpace</summaryProperty>
+<summaryProperty>properties/image/exif/Compression</summaryProperty>
+<summaryProperty>properties/image/exif/Software</summaryProperty>
+<summaryProperty>properties/image/exif/DateTimeOriginal</summaryProperty>
 <summaryProperty>properties/image/exif/Model</summaryProperty>
+<summaryProperty>properties/image/exif/Make</summaryProperty>
+<summaryProperty>properties/image/exif/ShutterSpeedValue</summaryProperty>
+<summaryProperty>properties/image/exif/ApertureValue</summaryProperty>
+<summaryProperty>properties/image/exif/ISOSpeed</summaryProperty>
+<!--
 <summaryProperty>properties/image/exif/LensMake</summaryProperty>
 <summaryProperty>properties/image/exif/LensSpecification</summaryProperty>
 <summaryProperty>properties/image/exif/LensModel</summaryProperty>
@@ -34,7 +43,7 @@ element links a search pattern to a corresponding schema
 <summaryProperty>properties/image/exif/FNumber</summaryProperty>
 <summaryProperty>properties/image/exif/ISOSpeedRatings</summaryProperty>
 <summaryProperty>properties/image/exif/WhiteBalance</summaryProperty>
-<summaryProperty>properties/image/exif/Software</summaryProperty>
+-->
 
 <!-- Schematron schema definition -->
 <schema>beeldstudio-retro.sch</schema>
