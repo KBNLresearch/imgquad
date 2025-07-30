@@ -39,7 +39,7 @@
         <s:assert test="(count(Make) > 0)">Missing Make tag</s:assert>
         <s:assert test="(count(ShutterSpeedValue) > 0)">Missing ShutterSpeedValue tag</s:assert>
         <s:assert test="(count(ApertureValue) > 0)">Missing ApertureValue tag</s:assert>
-        <s:assert test="(count(ISOSpeed) > 0)">Missing ISOSpeed tag</s:assert>
+        <s:assert test="(count(ISOSpeedRatings) > 0)">Missing ISOSpeedRatings tag</s:assert>
 
         <!-- Don't think we need these ...
         <s:assert test="(count(LensMake) > 0)">Missing LensMake tag</s:assert>

@@ -33,7 +33,8 @@ element links a search pattern to a corresponding schema
 <summaryProperty>properties/image/exif/Make</summaryProperty>
 <summaryProperty>properties/image/exif/ShutterSpeedValue</summaryProperty>
 <summaryProperty>properties/image/exif/ApertureValue</summaryProperty>
-<summaryProperty>properties/image/exif/ISOSpeed</summaryProperty>
+<summaryProperty>properties/image/exif/ISOSpeedRatings</summaryProperty>
+
 <!--
 <summaryProperty>properties/image/exif/LensMake</summaryProperty>
 <summaryProperty>properties/image/exif/LensSpecification</summaryProperty>
@@ -43,6 +44,7 @@ element links a search pattern to a corresponding schema
 <summaryProperty>properties/image/exif/FNumber</summaryProperty>
 <summaryProperty>properties/image/exif/ISOSpeedRatings</summaryProperty>
 <summaryProperty>properties/image/exif/WhiteBalance</summaryProperty>
+<summaryProperty>properties/image/exif/ISOSpeed</summaryProperty>
 -->
 
 <!-- Schematron schema definition -->
