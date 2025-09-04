@@ -54,6 +54,10 @@ def parseCommandLine():
                                 action="store",
                                 default=os.getcwd(),
                                 help="output directory")
+    parser_process.add_argument('--delimiter', '-d',
+                            action="store",
+                            default=';',
+                            help="output delimiter")
     parser_process.add_argument('--verbose', '-b',
                                 action="store_true",
                                 default=False,
@@ -219,6 +223,7 @@ def main():
         batchDir = os.path.normpath(args.batchDir)
         prefixOut = args.prefixout
         outDir = os.path.normpath(args.outdir)
+        delimiter = args.delimiter
         maxFiles = int(args.maxfiles)
         verboseFlag = args.verbose
     elif action == "list":
@@ -278,7 +283,7 @@ def main():
     summaryHeadings = ["file", "validationSuccess", "validationOutcome", "fileOut"] + propertyNames
 
     with open(summaryFile, 'w', newline='', encoding='utf-8') as fSum:
-        writer = csv.writer(fSum)
+        writer = csv.writer(fSum, delimiter=delimiter)
         writer.writerow(summaryHeadings)
 
     listFiles = getFilesFromTree(batchDir, extensions)
@@ -315,7 +320,7 @@ def main():
                     propertyValue = findEltValue(fileResult, property)
                     propValues.append(propertyValue)
 
-                writer = csv.writer(fSum)
+                writer = csv.writer(fSum, delimiter=delimiter)
                 myRow = [myFile, validationSuccess, validationOutcome, fileOut] + propValues
                 writer.writerow(myRow)
             # Convert output to XML and add to output file

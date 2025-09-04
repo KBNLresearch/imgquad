@@ -2,12 +2,7 @@
 
 <profile>
 
-<!-- Profile for Beeldstudio Retro. Each "schema"
-element links a search pattern to a corresponding schema
-
-- Value for "type" is either "fileName or "parentDirName"
-- Value for "match" is either "is", "startswith", "endswith" or "contains"
--->
+<!-- Profile for Beeldstudio Retro -->
 
 <!-- File extensions that will be processed (case insensitive) -->
 <extension>tif</extension>
@@ -47,7 +42,15 @@ element links a search pattern to a corresponding schema
 <summaryProperty>properties/image/exif/ISOSpeed</summaryProperty>
 -->
 
-<!-- Schematron schema definition -->
+<!-- Schematron schema definitions
+
+Each "schema"
+element links a search pattern to a corresponding schema
+
+- Value for "type" is either "fileName or "parentDirName"
+- Value for "match" is either "is", "startswith", "endswith" or "contains"
+-->
+
 <schema>beeldstudio-retro.sch</schema>
 
 </profile>

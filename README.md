@@ -68,6 +68,7 @@ In addition, the following optional arguments are available:
 |--maxfiles, -x|This defines the maximum number of images that are reported in each output XML file (default: 1000).|
 |--prefixout, -p|This defines a text prefix on which the names of the output files are based (default: "pq").|
 |--outdir, -o|This defines the directory where output is written (default: current working directory from which imgquad is launched).|
+|--delimiter, -d|This defines the delimiter that is used in the output summary file (default: ';')|
 |--verbose, -b|This tells imgquad to report Schematron output in verbose format.|
 
 In the simplest case, we can call imgquad with the profile and the batch directory as the only arguments:
