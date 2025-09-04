@@ -184,10 +184,9 @@ def getImageProperties(image):
     for k, v in propsExif.items():
         tag = TAGS.get(k, k)
         exifElt = etree.Element(str(tag))
-        exifElt.text = str(v)
-        if tag == 'XMLPacket':
-            # Skip XMLPacket tag, which contains raw XMP metadata
-            pass
+        if tag not in ['XMLPacket', 'InterColorProfile']:
+            # Don't include content of these tags as text
+            exifElt.text = str(v)
         else:
             propsExifElt.append(exifElt)
 
