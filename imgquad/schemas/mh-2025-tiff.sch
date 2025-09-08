@@ -8,9 +8,14 @@
 
     <!-- Checks at image level -->
     <s:rule context="//properties/image">
-        <!-- Checks on image format -->
-        <s:assert test="(count(format) &gt; 0)">Missing format tag</s:assert>
+        <!-- Check on image format -->
         <s:assert test="(format = 'TIFF')">Unexpected image format (expected: TIFF)</s:assert>
+        <!-- Check on ICC profile name -->
+        <s:assert test="(icc_profile_name = 'eciRGB v2')">Unexpected ICC profile name</s:assert>
+    </s:rule>
+
+    <!-- Checks at tiff tag level -->
+    <s:rule context="//properties/image/tiff">
         <!-- Check on icc profile -->
         <s:assert test="(count(icc_profile) &gt; 0)">Missing ICC profile</s:assert>
         <!-- Check on absence of any exceptions while parsing the image -->
@@ -18,7 +23,7 @@
     </s:rule>
 
     <!-- Checks at Exif tag level -->
-        <s:rule context="//properties/image/exif">
+    <s:rule context="//properties/image/exif">
         <!-- Checks for X- and Y resolution tags -->
         <s:assert test="(count(XResolution) &gt; 0)">Missing XResolution tag</s:assert>
         <s:assert test="(count(YResolution) &gt; 0)">Missing YResolution tag</s:assert>
@@ -61,6 +66,13 @@
         -->
 
     </s:rule>
+
+    <!-- Check for exceptions -->
+    <s:rule context="//properties/image/exceptions">
+        <!-- Check on absence of any exceptions while parsing the image -->
+        <s:assert test="(count(exception) = 0)">Properties extraction at image level resulted in one or more exceptions</s:assert>
+    </s:rule>
+
 
 </s:pattern>
 </s:schema>

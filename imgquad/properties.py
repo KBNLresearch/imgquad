@@ -194,9 +194,20 @@ def getImageProperties(image):
             if tag not in ['PhotoshopInfo', 'ICCProfile', 'IptcNaaInfo', 'XMP']:
                 # extracted value is tuple, so reformat as spece-delimited string
                 v = ''
-                for x in d:
-                    v = v + ' ' + str(x)
-                tiffElt.text = str(v.strip())
+                if tag not in ['XResolution', 'YResolution']:
+                    for x in d:
+                        v = v + ' ' + str(x)
+                else:
+                    try:
+                        # In case of XResolution / YResolution tag, parse numerator and denominator
+                        # values, and convert to resolution value
+                        num = d[0][0]
+                        den = d[0][1]
+                        v = str(num/den)
+                    except exception:
+                        pass
+
+                tiffElt.text = v.strip()
             propsTIFFElt.append(tiffElt)
 
     # Exif tags
