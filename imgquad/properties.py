@@ -17,7 +17,8 @@ import base64
 from lxml import etree
 import PIL
 from PIL import ImageCms
-from PIL.ExifTags import TAGS, GPSTAGS, IFD
+from PIL.TiffTags import TAGS as TAGS_TIFF
+from PIL.ExifTags import TAGS as TAGS_EXIF, GPSTAGS, IFD
 from . import jpegquality
 
 def dictionaryToElt(name, dictionary):
@@ -132,6 +133,7 @@ def getImageProperties(image):
             ex.text = str(e)
             logging.warning(("while estimating JPEG quality from image: {}").format(str(e)))
 
+
     for key, value in image.info.items():
 
         if key == 'exif':
@@ -173,23 +175,45 @@ def getImageProperties(image):
             ex.text = str(e)
             logging.warning(("while extracting ICC profile properties from image: {}").format(str(e)))
 
+
+    if image.format == "TIFF":
+        # Create element object to store TIFF tags
+        propsTIFFElt = etree.Element("tiff")
+
+        # Iterate over TIFF tags, code adapted from:
+        # https://stackoverflow.com/a/75357594/1209004 and
+        # https://stackoverflow.com/a/46910779
+
+        propsTIFF = {TAGS_TIFF[key] : image.tag[key] for key in image.tag.keys()}
+
+        for k, d in propsTIFF.items():
+            tag = k
+            tiffElt = etree.Element(str(tag))
+
+            # Don't include values of below tags
+            if tag not in ['PhotoshopInfo', 'ICCProfile', 'IptcNaaInfo', 'XMP']:
+                # extracted value is tuple, so reformat as spece-delimited string
+                v = ''
+                for x in d:
+                    v = v + ' ' + str(x)
+                tiffElt.text = str(v.strip())
+            propsTIFFElt.append(tiffElt)
+
     # Exif tags
     propsExif = image.getexif()
-
-    # Create element object to store Exif tags
     propsExifElt = etree.Element("exif")
 
     # Iterate over various Exif tags, code adapted from:
     # https://stackoverflow.com/a/75357594/1209004
 
     for k, v in propsExif.items():
-        tag = TAGS.get(k, k)
+        tag = TAGS_EXIF.get(k, k)
         exifElt = etree.Element(str(tag))
         if tag not in ['XMLPacket', 'InterColorProfile']:
             # Don't include content of these tags as text
             exifElt.text = str(v)
-        else:
-            propsExifElt.append(exifElt)
+
+        propsExifElt.append(exifElt)
 
     for ifd_id in IFD:
         # Iterate over image file directories
@@ -202,7 +226,7 @@ def getImageProperties(image):
             if ifd_id == IFD.GPSInfo:
                 resolve = GPSTAGS
             else:
-                resolve = TAGS
+                resolve = TAGS_EXIF
 
             for k, v in ifd.items():
                 tag = resolve.get(k, k)
@@ -212,14 +236,17 @@ def getImageProperties(image):
         except KeyError:
             pass
     
-
     # XMP metadata (returns dictionary)
     xmp = image.getxmp()
 
     # Dictionary to element
     propsXMPElt = dictionaryToElt('xmp', xmp)
 
+    #propsTIFFElt = dictionaryToElt('TIFF', propsTIFF)
+
     propsImageElt = dictionaryToElt('image', propsImage)
+    if image.format == "TIFF":
+        propsImageElt.append(propsTIFFElt)
     propsImageElt.append(propsExifElt)
     propsImageElt.append(propsXMPElt)
     propsImageElt.append(exceptionsImageElt)
