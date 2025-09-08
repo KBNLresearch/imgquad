@@ -13,11 +13,11 @@
 <summaryProperty>properties/image/components</summaryProperty>
 <summaryProperty>properties/image/bpc</summaryProperty>
 <summaryProperty>properties/image/icc_profile_name</summaryProperty>
-<summaryProperty>properties/image/exif/XResolution</summaryProperty>
-<summaryProperty>properties/image/exif/YResolution</summaryProperty>
-<summaryProperty>properties/image/exif/ResolutionUnit</summaryProperty>
-<summaryProperty>properties/image/exif/ImageWidth</summaryProperty>
-<summaryProperty>properties/image/exif/ImageLength</summaryProperty>
+<summaryProperty>properties/image/tiff/XResolution</summaryProperty>
+<summaryProperty>properties/image/tiff/YResolution</summaryProperty>
+<summaryProperty>properties/image/tiff/ResolutionUnit</summaryProperty>
+<summaryProperty>properties/image/tiff/ImageWidth</summaryProperty>
+<summaryProperty>properties/image/tiff/ImageLength</summaryProperty>
 <summaryProperty>properties/image/exif/ColorSpace</summaryProperty>
 <summaryProperty>properties/image/exif/Compression</summaryProperty>
 <summaryProperty>properties/image/exif/Software</summaryProperty>
