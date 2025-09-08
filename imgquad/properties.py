@@ -133,6 +133,7 @@ def getImageProperties(image):
             logging.warning(("while estimating JPEG quality from image: {}").format(str(e)))
 
     for key, value in image.info.items():
+
         if key == 'exif':
             # Skip any exif elements as Exif tags are added later
             pass

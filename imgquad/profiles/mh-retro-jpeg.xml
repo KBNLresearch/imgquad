@@ -2,11 +2,9 @@
 
 <profile>
 
-<!-- Profile for Beeldstudio Retro -->
+<!-- Middeleeuwse Handschriften, retro Beeldstudio specs, JPEG -->
 
 <!-- File extensions that will be processed (case insensitive) -->
-<extension>tif</extension>
-<extension>tiff</extension>
 <extension>jpg</extension>
 <extension>jpeg</extension>
 
@@ -51,7 +49,7 @@ element links a search pattern to a corresponding schema
 - Value for "match" is either "is", "startswith", "endswith" or "contains"
 -->
 
-<schema>beeldstudio-retro.sch</schema>
+<schema>mh-retro-jpeg.sch</schema>
 
 </profile>
 
