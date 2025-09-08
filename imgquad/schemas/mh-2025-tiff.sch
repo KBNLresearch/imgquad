@@ -16,14 +16,6 @@
 
     <!-- Checks at tiff tag level -->
     <s:rule context="//properties/image/tiff">
-        <!-- Check on icc profile -->
-        <s:assert test="(count(icc_profile) &gt; 0)">Missing ICC profile</s:assert>
-        <!-- Check on absence of any exceptions while parsing the image -->
-        <s:assert test="(count(exceptions/exception) = 0)">Properties extraction at image level resulted in one or more exceptions</s:assert>
-    </s:rule>
-
-    <!-- Checks at Exif tag level -->
-    <s:rule context="//properties/image/exif">
         <!-- Checks for X- and Y resolution tags -->
         <s:assert test="(count(XResolution) &gt; 0)">Missing XResolution tag</s:assert>
         <s:assert test="(count(YResolution) &gt; 0)">Missing YResolution tag</s:assert>
@@ -36,15 +28,19 @@
         <!-- Following tags are ALWAYS present, so not sure if checks make sense --> 
         <s:assert test="(count(ImageWidth) &gt; 0)">Missing ImageWidth tag</s:assert>
         <s:assert test="(count(ImageLength) &gt; 0)">Missing ImageLength tag</s:assert>
-        <!-- The following two checks correspond to the BitsPerSample requirement, which Pillow reports indirectly -->
-        <s:assert test="(components = '3')">Wrong number of components</s:assert>
-        <s:assert test="(bpc = '8')">Wrong bits per components value</s:assert>
+        <!-- Check on BitsPerSample -->
+        <s:assert test="(BitsPerSample = '8 8 8')">Wrong BitsPerSample value</s:assert>
+        <!-- Check on ICCProfile tag -->
+        <s:assert test="(count(ICCProfile) &gt; 0)">Missing ICCProfile tag</s:assert>
 
+    </s:rule>
+
+    <!-- Checks at exif tag level -->
+    <s:rule context="//properties/image/exif">
         <!-- Colourspace check -->
         <s:assert test="(ColorSpace = 65534)">Unexpected ColorSpace value</s:assert>
-         <!-- Compression type check (TODO value is 6 in case of JPEG, but is JPEG in scope here?)  -->
+         <!-- Compression type check -->
         <s:assert test="(Compression = 1)">Unexpected Compression value</s:assert>
-
         <!-- Checks for capture and camera related tags -->
         <s:assert test="(count(Software) &gt; 0)">Missing Software tag</s:assert>
         <s:assert test="(count(DateTimeOriginal) &gt; 0)">Missing DateTimeOriginal tag</s:assert>
@@ -62,8 +58,7 @@
         <s:assert test="(count(ExposureTime) &gt; 0)">Missing ExposureTime tag</s:assert>
         <s:assert test="(count(FNumber) &gt; 0)">Missing FNumber tag</s:assert>
         <s:assert test="(count(ISOSpeedRatings) &gt; 0)">Missing ISOSpeedRatings tag</s:assert>
-        <s:assert test="(count(WhiteBalance) &gt; 0)">Missing WhiteBalance tag</s:assert>
-        -->
+        <s:assert test="(count(WhiteBalance) &gt; 0)">Missing WhiteBalance tag</s:assert> -->
 
     </s:rule>
 

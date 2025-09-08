@@ -220,7 +220,7 @@ def getImageProperties(image):
     for k, v in propsExif.items():
         tag = TAGS_EXIF.get(k, k)
         exifElt = etree.Element(str(tag))
-        if tag not in ['XMLPacket', 'InterColorProfile']:
+        if tag not in ['XMLPacket', 'InterColorProfile', 'IPTCNAA', 'ImageResources']:
             # Don't include content of these tags as text
             exifElt.text = str(v)
 
