@@ -39,7 +39,7 @@ element links a search pattern to a corresponding schema
 - Value for "match" is either "is", "startswith", "endswith" or "contains"
 -->
 
-<schema>mh-2025-tiff-300.sch</schema>
+<schema>mh-2025-tiff-600.sch</schema>
 
 </profile>
 

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- Schematron rules for Middeleeuwse Handschriften, 2025 specs, TIFF, 300 ppi -->
+<!-- Schematron rules for Middeleeuwse Handschriften, 2025 specs, TIFF, 600 ppi -->
 
 <s:schema xmlns:s="http://purl.oclc.org/dsdl/schematron">
 
@@ -19,10 +19,10 @@
         <!-- Checks for X- and Y resolution tags -->
         <s:assert test="(count(XResolution) &gt; 0)">Missing XResolution tag</s:assert>
         <s:assert test="(count(YResolution) &gt; 0)">Missing YResolution tag</s:assert>
-        <s:assert test="(XResolution &gt; 299) and
-        (XResolution &lt; 301)">XResolution value outside permitted range</s:assert>
-        <s:assert test="(YResolution &gt; 299) and
-        (YResolution &lt; 301)">YResolution value outside permitted range</s:assert>
+        <s:assert test="(XResolution &gt; 599) and
+        (XResolution &lt; 601)">XResolution value outside permitted range</s:assert>
+        <s:assert test="(YResolution &gt; 599) and
+        (YResolution &lt; 601)">YResolution value outside permitted range</s:assert>
         <s:assert test="(count(ResolutionUnit) &gt; 0)">Missing ResolutionUnit tag</s:assert>
         <s:assert test="(ResolutionUnit = 2)">Wrong ResolutionUnit value</s:assert>
         <!-- Following tags are ALWAYS present, so not sure if checks make sense --> 
