@@ -28,10 +28,13 @@
         <!-- Following tags are ALWAYS present, so not sure if checks make sense --> 
         <s:assert test="(count(ImageWidth) &gt; 0)">Missing ImageWidth tag</s:assert>
         <s:assert test="(count(ImageLength) &gt; 0)">Missing ImageLength tag</s:assert>
-        <!-- Check on BitsPerSample -->
+        <!-- Checks on BitsPerSample -->
+        <s:assert test="(count(BitsPerSample) &gt; 0)">Missing BitsPerSample tag</s:assert>
         <s:assert test="(BitsPerSample = '8 8 8')">Wrong BitsPerSample value</s:assert>
         <!-- Check on ICCProfile tag -->
         <s:assert test="(count(ICCProfile) &gt; 0)">Missing ICCProfile tag</s:assert>
+        <!-- Check on Copyright tag -->
+        <s:assert test="(count(Copyright) &gt; 0)">Missing Copyright tag</s:assert>
 
     </s:rule>
 
@@ -40,7 +43,8 @@
         <!-- Colourspace checks -->
         <s:assert test="(count(ColorSpace) &gt; 0)">Missing ColorSpace tag</s:assert>
         <s:assert test="(ColorSpace = 65534)">Unexpected ColorSpace value</s:assert>
-         <!-- Compression type check -->
+         <!-- Compression type checks -->
+         <s:assert test="(count(Compression) &gt; 0)">Missing Compression tag</s:assert>
         <s:assert test="(Compression = 1)">Unexpected Compression value</s:assert>
         <!-- Checks for capture and camera related tags -->
         <s:assert test="(count(Software) &gt; 0)">Missing Software tag</s:assert>
@@ -61,6 +65,16 @@
         <s:assert test="(count(ISOSpeedRatings) &gt; 0)">Missing ISOSpeedRatings tag</s:assert>
         <s:assert test="(count(WhiteBalance) &gt; 0)">Missing WhiteBalance tag</s:assert> -->
 
+    </s:rule>
+
+    <!-- Checks for descriptive metadata in XMP -->
+    <s:rule context="//properties/image/xmp/xmpmeta/RDF/Description">
+        <!-- Checks on Headline and Credit elements
+        TODO: According to current specs, both are located in XMP-photoshop, but in test dataset 
+        these are found under xmp/xmpmeta/RDF/Description. Unclear to what degree this is standardised
+        across suppliers!-->
+        <s:assert test="(count(Headline) &gt; 0)">Missing Headline element</s:assert>
+        <s:assert test="(count(Credit) &gt; 0)">Missing Credit element</s:assert>
     </s:rule>
 
     <!-- Check for exceptions -->
