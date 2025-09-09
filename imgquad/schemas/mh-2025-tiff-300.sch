@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- Schematron rules for Middeleeuwse Handschriften, 2025 specs (TIFF)-->
+<!-- Schematron rules for Middeleeuwse Handschriften, 2025 specs, TIFF, 300 ppi -->
 
 <s:schema xmlns:s="http://purl.oclc.org/dsdl/schematron">
 
