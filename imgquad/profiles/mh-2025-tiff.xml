@@ -10,14 +10,14 @@
 
 <!-- Properties that are written to summary file -->
 <summaryProperty>properties/image/format</summaryProperty>
-<summaryProperty>properties/image/components</summaryProperty>
-<summaryProperty>properties/image/bpc</summaryProperty>
 <summaryProperty>properties/image/icc_profile_name</summaryProperty>
 <summaryProperty>properties/image/tiff/XResolution</summaryProperty>
 <summaryProperty>properties/image/tiff/YResolution</summaryProperty>
 <summaryProperty>properties/image/tiff/ResolutionUnit</summaryProperty>
 <summaryProperty>properties/image/tiff/ImageWidth</summaryProperty>
 <summaryProperty>properties/image/tiff/ImageLength</summaryProperty>
+<summaryProperty>properties/image/tiff/BitsPerSample</summaryProperty>
+<summaryProperty>properties/image/tiff/Copyright</summaryProperty>
 <summaryProperty>properties/image/exif/ColorSpace</summaryProperty>
 <summaryProperty>properties/image/exif/Compression</summaryProperty>
 <summaryProperty>properties/image/exif/Software</summaryProperty>
@@ -27,18 +27,8 @@
 <summaryProperty>properties/image/exif/ShutterSpeedValue</summaryProperty>
 <summaryProperty>properties/image/exif/ApertureValue</summaryProperty>
 <summaryProperty>properties/image/exif/ISOSpeedRatings</summaryProperty>
-
-<!--
-<summaryProperty>properties/image/exif/LensMake</summaryProperty>
-<summaryProperty>properties/image/exif/LensSpecification</summaryProperty>
-<summaryProperty>properties/image/exif/LensModel</summaryProperty>
-<summaryProperty>properties/image/exif/LensSerialNumber</summaryProperty>
-<summaryProperty>properties/image/exif/ExposureTime</summaryProperty>
-<summaryProperty>properties/image/exif/FNumber</summaryProperty>
-<summaryProperty>properties/image/exif/ISOSpeedRatings</summaryProperty>
-<summaryProperty>properties/image/exif/WhiteBalance</summaryProperty>
-<summaryProperty>properties/image/exif/ISOSpeed</summaryProperty>
--->
+<summaryProperty>properties/image/xmp/xmpmeta/RDF/Description/Headline</summaryProperty>
+<summaryProperty>properties/image/xmp/xmpmeta/RDF/Description/Credit</summaryProperty>
 
 <!-- Schematron schema definitions
 
