@@ -55,16 +55,6 @@
         <s:assert test="(count(ApertureValue) &gt; 0)">Missing ApertureValue tag</s:assert>
         <s:assert test="(count(ISOSpeedRatings) &gt; 0)">Missing ISOSpeedRatings tag</s:assert>
 
-        <!-- Don't think we need these ...
-        <s:assert test="(count(LensMake) &gt; 0)">Missing LensMake tag</s:assert>
-        <s:assert test="(count(LensSpecification) &gt; 0)">Missing LensSpecification tag</s:assert>
-        <s:assert test="(count(LensModel) &gt; 0)">Missing LensModel tag</s:assert>
-        <s:assert test="(count(LensSerialNumber) &gt; 0)">Missing LensSerialNumber tag</s:assert>
-        <s:assert test="(count(ExposureTime) &gt; 0)">Missing ExposureTime tag</s:assert>
-        <s:assert test="(count(FNumber) &gt; 0)">Missing FNumber tag</s:assert>
-        <s:assert test="(count(ISOSpeedRatings) &gt; 0)">Missing ISOSpeedRatings tag</s:assert>
-        <s:assert test="(count(WhiteBalance) &gt; 0)">Missing WhiteBalance tag</s:assert> -->
-
     </s:rule>
 
     <!-- Checks for descriptive metadata in XMP -->
