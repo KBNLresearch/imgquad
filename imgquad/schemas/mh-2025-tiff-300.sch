@@ -35,7 +35,6 @@
         <s:assert test="(count(ICCProfile) &gt; 0)">Missing ICCProfile tag</s:assert>
         <!-- Check on Copyright tag -->
         <s:assert test="(count(Copyright) &gt; 0)">Missing Copyright tag</s:assert>
-
     </s:rule>
 
     <!-- Checks at exif tag level -->
@@ -54,7 +53,6 @@
         <s:assert test="(count(ShutterSpeedValue) &gt; 0)">Missing ShutterSpeedValue tag</s:assert>
         <s:assert test="(count(ApertureValue) &gt; 0)">Missing ApertureValue tag</s:assert>
         <s:assert test="(count(ISOSpeedRatings) &gt; 0)">Missing ISOSpeedRatings tag</s:assert>
-
     </s:rule>
 
     <!-- Checks for descriptive metadata in XMP -->
@@ -72,7 +70,6 @@
         <!-- Check on absence of any exceptions while parsing the image -->
         <s:assert test="(count(exception) = 0)">Properties extraction at image level resulted in one or more exceptions</s:assert>
     </s:rule>
-
 
 </s:pattern>
 </s:schema>
