@@ -278,7 +278,10 @@ def main():
     # List with names of output properties
     propertyNames = []
     for property in summaryProperties:
-        propertyNames.append(property.split('/')[-1])
+        propertyName = property.split('/')[-1]
+        # In case of name space
+        propertyName = propertyName.strip('}')
+        propertyNames.append( propertyName)
 
     summaryHeadings = ["file", "validationSuccess", "validationOutcome", "fileOut"] + propertyNames
 

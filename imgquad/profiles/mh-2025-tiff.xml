@@ -27,8 +27,8 @@
 <summaryProperty>properties/image/exif/ShutterSpeedValue</summaryProperty>
 <summaryProperty>properties/image/exif/ApertureValue</summaryProperty>
 <summaryProperty>properties/image/exif/ISOSpeedRatings</summaryProperty>
-<summaryProperty>properties/image/xmp/xmpmeta/RDF/Description/Headline</summaryProperty>
-<summaryProperty>properties/image/xmp/xmpmeta/RDF/Description/Credit</summaryProperty>
+<summaryProperty>properties/image/{adobe:ns:meta/}xmpmeta/{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF/{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description/{http://ns.adobe.com/photoshop/1.0/}Headline</summaryProperty>
+<summaryProperty>properties/image/{adobe:ns:meta/}xmpmeta/{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF/{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description/{http://ns.adobe.com/photoshop/1.0/}Credit</summaryProperty>
 
 <!-- Schematron schema definitions
 
