@@ -2,6 +2,9 @@
 <!-- Schematron rules for Middeleeuwse Handschriften, 2025 specs, TIFF, 600 ppi -->
 
 <s:schema xmlns:s="http://purl.oclc.org/dsdl/schematron">
+<s:ns uri="adobe:ns:meta/" prefix="x"/>
+<s:ns uri="http://www.w3.org/1999/02/22-rdf-syntax-ns#" prefix="rdf"/>
+<s:ns uri="http://ns.adobe.com/photoshop/1.0/" prefix="photoshop"/>
 
 <s:pattern>
     <s:title>Middeleeuwse Handschriften, 2025 checks</s:title>
@@ -56,13 +59,10 @@
     </s:rule>
 
     <!-- Checks for descriptive metadata in XMP -->
-    <s:rule context="//properties/image/xmp/xmpmeta/RDF/Description">
-        <!-- Checks on Headline and Credit elements
-        TODO: According to current specs, both are located in XMP-photoshop, but in test dataset 
-        these are found under xmp/xmpmeta/RDF/Description. Unclear to what degree this is standardised
-        across suppliers!-->
-        <s:assert test="(count(Headline) &gt; 0)">Missing Headline element</s:assert>
-        <s:assert test="(count(Credit) &gt; 0)">Missing Credit element</s:assert>
+    <s:rule context="//properties/image/x:xmpmeta">
+        <!-- Checks on Headline and Credit elements -->
+        <s:assert test="(count(rdf:RDF/rdf:Description/photoshop:Headline) &gt; 0)">Missing Headline element</s:assert>
+        <s:assert test="(count(rdf:RDF/rdf:Description/photoshop:Credit) &gt; 0)">Missing Credit element</s:assert>
     </s:rule>
 
     <!-- Check for exceptions -->

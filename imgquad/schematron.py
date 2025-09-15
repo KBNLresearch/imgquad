@@ -47,12 +47,13 @@ def checkProfilesSchemas(profilesDir, schemasDir):
             schemaElt = readAsLXMLElt(os.path.join(schemasDir, schema))
         except Exception:
             msg = ("error parsing schema {}").format(schema)
-            #raise
+            raise
             shared.errorExit(msg)
         try:
             isoschematron.Schematron(schemaElt)
         except etree.XSLTParseError:
             msg = ("XSLT parse error for schema {}").format(schema)
+            raise
             shared.errorExit(msg)       
 
 
