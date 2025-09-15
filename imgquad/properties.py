@@ -26,7 +26,6 @@ def dictionaryToElt(name, dictionary):
     elt = etree.Element(name)
 
     for k, v in dictionary.items():
-        #child = etree.Element(k)
         if isinstance(v, dict):
             child = dictionaryToElt(str(k),v)
             elt.append(child)
@@ -247,19 +246,21 @@ def getImageProperties(image):
         except KeyError:
             pass
     
-    # XMP metadata (returns dictionary)
-    xmp = image.getxmp()
-
-    # Dictionary to element
-    propsXMPElt = dictionaryToElt('xmp', xmp)
-
-    #propsTIFFElt = dictionaryToElt('TIFF', propsTIFF)
+    # Read XMP metadata as string since dedicated getxmp function returns dictionary
+    # that is difficult to work with for our purposes 
+    # See: https://github.com/python-pillow/Pillow/issues/5076#issuecomment-2119966091
+    # this only works for TIFF!
+    if image.format == "TIFF":
+        xmp = image.tag_v2[700].decode('utf-8')
+        # Convert to Element object
+        propsXMPElt = etree.fromstring(xmp)
 
     propsImageElt = dictionaryToElt('image', propsImage)
     if image.format == "TIFF":
         propsImageElt.append(propsTIFFElt)
     propsImageElt.append(propsExifElt)
-    propsImageElt.append(propsXMPElt)
+    if image.format == "TIFF":
+        propsImageElt.append(propsXMPElt)
     propsImageElt.append(exceptionsImageElt)
 
     return propsImageElt
