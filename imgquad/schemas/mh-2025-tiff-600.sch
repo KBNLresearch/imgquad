@@ -60,15 +60,10 @@
 
     <!-- Checks for descriptive metadata in XMP -->
     <s:rule context="//properties/image/x:xmpmeta">
-        <!-- Checks on Headline and Credit elements -->
-        <!-- Case 1: dedicated elements
-        <s:assert test="(count(rdf:RDF/rdf:Description/photoshop:Headline) &gt; 0)">Missing Headline element</s:assert>
-        <s:assert test="(count(rdf:RDF/rdf:Description/photoshop:Credit) &gt; 0)">Missing Credit element</s:assert>
-        -->
-        <!-- Case 2: attribute values-->
-        <s:assert test="(count(rdf:RDF/rdf:Description/@photoshop:Headline) &gt; 0)">Missing Headline element</s:assert>
-        <s:assert test="(count(rdf:RDF/rdf:Description/@photoshop:Credit) &gt; 0)">Missing Credit element</s:assert>
-
+        <!-- Checks on Headline and Credit elements. These can be defined as either dedicated sub-elements of rdf:Decription,
+        or as attributes of rdf:Description, so we need to check for both -->
+        <s:assert test="(count(rdf:RDF/rdf:Description/photoshop:Headline) &gt; 0 or count(rdf:RDF/rdf:Description/@photoshop:Headline) &gt; 0)">Missing Headline element</s:assert>
+        <s:assert test="(count(rdf:RDF/rdf:Description/photoshop:Credit) &gt; 0 or count(rdf:RDF/rdf:Description/@photoshop:Credit) &gt; 0)">Missing Credit element</s:assert>
     </s:rule>
 
     <!-- Check for exceptions -->
