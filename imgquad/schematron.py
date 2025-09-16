@@ -98,10 +98,6 @@ def readProfile(profile, schemasDir):
         prefix = namespace.attrib['prefix']
         dictNamespaces[prefix] = uri
 
-    ## TEST
-    print(dictNamespaces)
-    ##
-
     # Locate summary properties elements and add them to list
     sProperties = prof.findall("summaryProperty")
 
