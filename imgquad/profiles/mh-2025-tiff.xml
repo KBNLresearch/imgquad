@@ -4,14 +4,14 @@
 
 <!-- Middeleeuwse Handschriften, 2025 specs (TIFF)-->
 
-<!-- Namespace definitions  (used in property paths)-->
-<ns uri="adobe:ns:meta/" prefix="x"/>
-<ns uri="http://www.w3.org/1999/02/22-rdf-syntax-ns#" prefix="rdf"/>
-<ns uri="http://ns.adobe.com/photoshop/1.0/" prefix="photoshop"/>
-
 <!-- File extensions that will be processed (case insensitive) -->
 <extension>tif</extension>
 <extension>tiff</extension>
+
+<!-- Namespace definitions (used in summaryProperty paths)-->
+<ns uri="adobe:ns:meta/" prefix="x"/>
+<ns uri="http://www.w3.org/1999/02/22-rdf-syntax-ns#" prefix="rdf"/>
+<ns uri="http://ns.adobe.com/photoshop/1.0/" prefix="photoshop"/>
 
 <!-- Properties that are written to summary file -->
 <summaryProperty>properties/image/format</summaryProperty>
@@ -32,6 +32,10 @@
 <summaryProperty>properties/image/exif/ShutterSpeedValue</summaryProperty>
 <summaryProperty>properties/image/exif/ApertureValue</summaryProperty>
 <summaryProperty>properties/image/exif/ISOSpeedRatings</summaryProperty>
+<!-- Below properties can be encoded as either sub-elements or attibutes of
+an rdf:Description element, so they are duplicated here to cover both cases -->
+<summaryProperty>properties/image/x:xmpmeta/rdf:RDF/rdf:Description/photoshop:Headline</summaryProperty>
+<summaryProperty>properties/image/x:xmpmeta/rdf:RDF/rdf:Description/photoshop:Credit</summaryProperty>
 <summaryProperty>properties/image/x:xmpmeta/rdf:RDF/rdf:Description/@photoshop:Headline</summaryProperty>
 <summaryProperty>properties/image/x:xmpmeta/rdf:RDF/rdf:Description/@photoshop:Credit</summaryProperty>
 
