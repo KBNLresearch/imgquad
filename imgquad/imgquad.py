@@ -167,11 +167,19 @@ def processFile(file, verboseFlag, schemas):
     return fileElt
 
 
-def findEltValue(element, path):
+def findEltValue(element, path, ns):
     """ Return text of path in element, or "n/a" if it doesn't exist """
     try:
-        result = element.find(path).text
-    except AttributeError:
+        #result = element.find(path).text
+        elOut = element.xpath(path, namespaces=ns)
+        
+        if len(elOut) > 0:
+            result = elOut[0].text
+        else:
+            result = "n/a"
+
+    except Exception:
+        raise
         result = "n/a"
     
     return result
@@ -265,7 +273,7 @@ def main():
                         format='%(asctime)s - %(levelname)s - %(message)s')
 
     # Get file extensions, summary properties schema patterns and locations from profile
-    extensions, summaryProperties, schemas = schematron.readProfile(profile, schemasDir)
+    extensions, namespaces, summaryProperties, schemas = schematron.readProfile(profile, schemasDir)
 
     if len(extensions) == 0:
         msg = ("no file extensions defined in profile")
@@ -279,9 +287,7 @@ def main():
     propertyNames = []
     for property in summaryProperties:
         propertyName = property.split('/')[-1]
-        # In case of name space
-        propertyName = propertyName.strip('}')
-        propertyNames.append( propertyName)
+        propertyNames.append(propertyName)
 
     summaryHeadings = ["file", "validationSuccess", "validationOutcome", "fileOut"] + propertyNames
 
@@ -315,12 +321,12 @@ def main():
         myFile = os.path.abspath(myFile)
         fileResult = processFile(myFile, verboseFlag, schemas)
         if len(fileResult) != 0:
-            validationSuccess = findEltValue(fileResult, 'validationSuccess')
-            validationOutcome = findEltValue(fileResult, 'validationOutcome')
+            validationSuccess = findEltValue(fileResult, 'validationSuccess', namespaces)
+            validationOutcome = findEltValue(fileResult, 'validationOutcome', namespaces)
             with open(summaryFile, 'a', newline='', encoding='utf-8') as fSum:
                 propValues = []
                 for property in summaryProperties:
-                    propertyValue = findEltValue(fileResult, property)
+                    propertyValue = findEltValue(fileResult, property, namespaces)
                     propValues.append(propertyValue)
 
                 writer = csv.writer(fSum, delimiter=delimiter)

@@ -73,6 +73,9 @@ def readProfile(profile, schemasDir):
     # Output extensions list
     listExtensions = []
 
+    # Output namespaces dictionary
+    dictNamespaces = {}
+
     # Output properties list
     listProperties = []
 
@@ -86,10 +89,22 @@ def readProfile(profile, schemasDir):
     for extension in extensions:
         listExtensions.append(extension.text)
 
-    # Locate summary properties elements
+    # Locate namespace elements
+    namespaces = prof.findall("ns")
+
+    # Add namespace prefixes and uris to dictionary
+    for namespace in namespaces:
+        uri = namespace.attrib['uri']
+        prefix = namespace.attrib['prefix']
+        dictNamespaces[prefix] = uri
+
+    ## TEST
+    print(dictNamespaces)
+    ##
+
+    # Locate summary properties elements and add them to list
     sProperties = prof.findall("summaryProperty")
 
-    # Add properrties to output list
     for property in sProperties:
         listProperties.append(property.text)
 
@@ -133,7 +148,7 @@ def readProfile(profile, schemasDir):
 
         listSchemas.append([mType, mMatch, mPattern, schematronFile])
 
-    return listExtensions, listProperties, listSchemas
+    return listExtensions, dictNamespaces, listProperties, listSchemas
 
 
 def readAsLXMLElt(xmlFile):
