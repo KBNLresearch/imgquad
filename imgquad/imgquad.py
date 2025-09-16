@@ -170,11 +170,13 @@ def processFile(file, verboseFlag, schemas):
 def findEltValue(element, path, ns):
     """ Return text of path in element, or "n/a" if it doesn't exist """
     try:
-        #result = element.find(path).text
         elOut = element.xpath(path, namespaces=ns)
         
         if len(elOut) > 0:
-            result = elOut[0].text
+            if type(elOut[0]) == etree._Element:
+                result = elOut[0].text
+            elif type(elOut[0]) == etree._ElementUnicodeResult:
+                result = elOut[0]
         else:
             result = "n/a"
 

@@ -32,8 +32,8 @@
 <summaryProperty>properties/image/exif/ShutterSpeedValue</summaryProperty>
 <summaryProperty>properties/image/exif/ApertureValue</summaryProperty>
 <summaryProperty>properties/image/exif/ISOSpeedRatings</summaryProperty>
-<summaryProperty>properties/image/x:xmpmeta/rdf:RDF/rdf:Description/photoshop:Headline</summaryProperty>
-<summaryProperty>properties/image/x:xmpmeta/rdf:RDF/rdf:Description/photoshop:Credit</summaryProperty>
+<summaryProperty>properties/image/x:xmpmeta/rdf:RDF/rdf:Description/@photoshop:Headline</summaryProperty>
+<summaryProperty>properties/image/x:xmpmeta/rdf:RDF/rdf:Description/@photoshop:Credit</summaryProperty>
 
 <!-- Schematron schema definitions
 
