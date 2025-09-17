@@ -183,21 +183,39 @@ Schemas contain the Schematron rules on which the quality assessment is based. S
 
 ### mh-2025-tiff-600.sch
 
-This is a schema for digitised medieval manuscripts.
-
-<!--
-TODO, add description
-
-It includes the following checks:
+This is a schema for digitised medieval manuscripts. It includes the following checks:
 
 |Check|Value|
 |:---|:---|
-|||
-|||
-|||
-|||
+|Image format|TIFF|
+|ICC profile name|eciRGB v2|
+|XResolution TIFF tag|tag exists|
+|YResolution TIFF tag|tag exists|
+|XResolution|600 (+/- 1) |
+|YResolution|600 (+/- 1) |
+|ResolutionUnit TIFF tag|tag exists|
+|ResolutionUnit|2 (inches)|
+|ImageWidth TIFF tag|tag exists|
+|ImageLength TIFF tag|tag exists|
+|BitsPerSample TIFF tag|tag exists|
+|BitsPerSample|'8 8 8'|
+|ICCProfile TIFF tag|tag exists|
+|Copyright TIFF tag|tag exists|
+|ColorSpace EXIF tag|tag exists|
+|ColorSpace|65535 (Uncalibrated)|
+|Compression EXIF tag|tag exists|
+|Compression|1 (Uncompressed)|
+|Software EXIF tag|tag exists|
+|DateTimeOriginal EXIF tag|tag exists|
+|Model EXIF tag|tag exists|
+|Make EXIF tag|tag exists|
+|ShutterSpeedValue EXIF tag|tag exists|
+|ApertureValue EXIF tag|tag exists|
+|ISOSpeedRatings EXIF tag|tag exists|
+|photoshop:Headline|defined in XMP metadata as either element `rdf:RDF/rdf:Description/photoshop:Headline`, or attribute `rdf:RDF/rdf:Description/@photoshop:Headline`|
+|photoshop:Credit|defined in XMP metadata as either element `rdf:RDF/rdf:Description/photoshop:Credit`, or attribute `rdf:RDF/rdf:Description/@photoshop:Credit`|
 
--->
+The schema also includes an additional check on any exceptions that occurred while parsing the image, as this may indicate a corrupted file.
 
 ## Output
 
