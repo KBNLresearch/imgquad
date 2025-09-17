@@ -49,8 +49,8 @@ Imgquad has three sub-commands:
 Run imgquad with the *process* command to process a batch. The syntax is:
 
 ```
-usage: imgquad process [-h] [--maxfiles MAXFILES] [--prefixout PREFIXOUT]
-                       [--outdir OUTDIR] [--verbose]
+usage: imgquad process [-h] [--prefixout PREFIXOUT] [--outdir OUTDIR]
+                       [--delimiter DELIMITER] [--verbose]
                        profile batchDir
 ```
 
@@ -65,7 +65,6 @@ In addition, the following optional arguments are available:
 
 |Argument|Description|
 |:-----|:--|
-|--maxfiles, -x|This defines the maximum number of images that are reported in each output XML file (default: 1000).|
 |--prefixout, -p|This defines a text prefix on which the names of the output files are based (default: "pq").|
 |--outdir, -o|This defines the directory where output is written (default: current working directory from which imgquad is launched).|
 |--delimiter, -d|This defines the delimiter that is used in the output summary file (default: ';')|
@@ -217,7 +216,6 @@ This is a comma-delimited text file that summarises the analysis. At the minimum
 |file|Full path to the image file.|
 |validationSuccess|Flag with value *True* if Schematron validation was succesful, and *False* if not. A value *False* indicates that the file could not be validated (e.g. because no matching schema was found, or the validation resulted in an unexpected exception)|
 |validationOutcome|The outcome of the Schematron validation/assessment. Value is *Pass* if file passed all tests, and *Fail* otherwise. Note that it is automatically set to *Fail* if the Schematron validation was unsuccessful (i.e. "validationSuccess" is *False*)|
-|fileOut|Corresponding comprehensive output file with full output for this image.|
 
 In addition, the summary file contains additional columns with the properties that are defined by the *summaryProperty* elements in the profile.
 
