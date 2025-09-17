@@ -216,6 +216,7 @@ This is a comma-delimited text file that summarises the analysis. At the minimum
 |file|Full path to the image file.|
 |validationSuccess|Flag with value *True* if Schematron validation was succesful, and *False* if not. A value *False* indicates that the file could not be validated (e.g. because no matching schema was found, or the validation resulted in an unexpected exception)|
 |validationOutcome|The outcome of the Schematron validation/assessment. Value is *Pass* if file passed all tests, and *Fail* otherwise. Note that it is automatically set to *Fail* if the Schematron validation was unsuccessful (i.e. "validationSuccess" is *False*)|
+|validationErrors|List of validation errors (separated by "|" characters).|
 
 In addition, the summary file contains additional columns with the properties that are defined by the *summaryProperty* elements in the profile.
 
