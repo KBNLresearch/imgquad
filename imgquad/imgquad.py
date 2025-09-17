@@ -41,11 +41,6 @@ def parseCommandLine():
     parser_process.add_argument('batchDir',
                                 action="store",
                                 help="batch directory")
-    parser_process.add_argument('--maxfiles', '-x',
-                                action="store",
-                                default=1000,
-                                help="maximum number of reported images per output file; for larger numbers \
-                                    output is split across multiple files")
     parser_process.add_argument('--prefixout', '-p',
                                 action="store",
                                 default='iq',
@@ -234,7 +229,6 @@ def main():
         prefixOut = args.prefixout
         outDir = os.path.normpath(args.outdir)
         delimiter = args.delimiter
-        maxFiles = int(args.maxfiles)
         verboseFlag = args.verbose
     elif action == "list":
         schematron.listProfilesSchemas(profilesDir, schemasDir)
@@ -291,7 +285,7 @@ def main():
         propertyName = property.split('/')[-1]
         propertyNames.append(propertyName)
 
-    summaryHeadings = ["file", "validationSuccess", "validationOutcome", "fileOut"] + propertyNames
+    summaryHeadings = ["file", "validationSuccess", "validationOutcome"] + propertyNames
 
     with open(summaryFile, 'w', newline='', encoding='utf-8') as fSum:
         writer = csv.writer(fSum, delimiter=delimiter)
@@ -305,21 +299,12 @@ def main():
     print("imgquad started: " + time.asctime())
 
     # Iterate over all files
-    fileCount = 1
-    outFileCount = 1
-    fileOut = ("{}_{}.xml").format(prefixBatch, str(outFileCount).zfill(3))
+    fileOut = ("{}.xml").format(prefixBatch)
     fileOut = os.path.join(outDir, fileOut)
     writeXMLHeader(fileOut)
 
     for myFile in listFiles:
         logging.info(("file: {}").format(myFile))
-        if fileCount > maxFiles:
-            writeXMLFooter(fileOut)
-            outFileCount += 1
-            fileOut = ("{}_{}.xml").format(prefixBatch, str(outFileCount).zfill(3))
-            fileOut = os.path.join(outDir, fileOut)
-            writeXMLHeader(fileOut)
-            fileCount = 1
         myFile = os.path.abspath(myFile)
         fileResult = processFile(myFile, verboseFlag, schemas)
         if len(fileResult) != 0:
@@ -332,7 +317,7 @@ def main():
                     propValues.append(propertyValue)
 
                 writer = csv.writer(fSum, delimiter=delimiter)
-                myRow = [myFile, validationSuccess, validationOutcome, fileOut] + propValues
+                myRow = [myFile, validationSuccess, validationOutcome] + propValues
                 writer.writerow(myRow)
             # Convert output to XML and add to output file
             outXML = etree.tostring(fileResult,
@@ -343,8 +328,6 @@ def main():
 
             with open(fileOut,"ab") as f:
                 f.write(outXML)
-
-            fileCount += 1
 
     writeXMLFooter(fileOut)
 
