@@ -91,9 +91,9 @@ Results in:
 
 ```
 Available profiles (directory /home/johan/.config/imgquad/profiles):
-  - beeldstudio-retro.xml
+  - mh-2025-tiff.xml
 Available schemas (directory /home/johan/.config/imgquad/schemas):
-  - beeldstudio-retro.sch
+  - mh-2025-tiff-600.sch
 ```
 
 ### copyps command
@@ -111,35 +111,46 @@ A profile is an XML file that defines how a digitisation batch is evaluated. Her
 
 <profile>
 
+<!-- Middeleeuwse Handschriften, 2025 specs (TIFF)-->
+
 <!-- File extensions that will be processed (case insensitive) -->
 <extension>tif</extension>
 <extension>tiff</extension>
-<extension>jpg</extension>
-<extension>jpeg</extension>
+
+<!-- Namespace definitions (used in summaryProperty paths)-->
+<ns uri="adobe:ns:meta/" prefix="x"/>
+<ns uri="http://www.w3.org/1999/02/22-rdf-syntax-ns#" prefix="rdf"/>
+<ns uri="http://ns.adobe.com/photoshop/1.0/" prefix="photoshop"/>
 
 <!-- Properties that are written to summary file -->
 <summaryProperty>properties/image/format</summaryProperty>
-<summaryProperty>properties/image/exif/Compression</summaryProperty>
-<summaryProperty>properties/image/components</summaryProperty>
-<summaryProperty>properties/image/bpc</summaryProperty>
 <summaryProperty>properties/image/icc_profile_name</summaryProperty>
+<summaryProperty>properties/image/tiff/XResolution</summaryProperty>
+<summaryProperty>properties/image/tiff/YResolution</summaryProperty>
+<summaryProperty>properties/image/tiff/ResolutionUnit</summaryProperty>
+<summaryProperty>properties/image/tiff/ImageWidth</summaryProperty>
+<summaryProperty>properties/image/tiff/ImageLength</summaryProperty>
+<summaryProperty>properties/image/tiff/BitsPerSample</summaryProperty>
+<summaryProperty>properties/image/tiff/Copyright</summaryProperty>
 <summaryProperty>properties/image/exif/ColorSpace</summaryProperty>
-<summaryProperty>properties/image/exif/XResolution</summaryProperty>
-<summaryProperty>properties/image/exif/YResolution</summaryProperty>
-<summaryProperty>properties/image/exif/Make</summaryProperty>
-<summaryProperty>properties/image/exif/Model</summaryProperty>
-<summaryProperty>properties/image/exif/LensMake</summaryProperty>
-<summaryProperty>properties/image/exif/LensSpecification</summaryProperty>
-<summaryProperty>properties/image/exif/LensModel</summaryProperty>
-<summaryProperty>properties/image/exif/LensSerialNumber</summaryProperty>
-<summaryProperty>properties/image/exif/ExposureTime</summaryProperty>
-<summaryProperty>properties/image/exif/FNumber</summaryProperty>
-<summaryProperty>properties/image/exif/ISOSpeedRatings</summaryProperty>
-<summaryProperty>properties/image/exif/WhiteBalance</summaryProperty>
+<summaryProperty>properties/image/exif/Compression</summaryProperty>
 <summaryProperty>properties/image/exif/Software</summaryProperty>
+<summaryProperty>properties/image/exif/DateTimeOriginal</summaryProperty>
+<summaryProperty>properties/image/exif/Model</summaryProperty>
+<summaryProperty>properties/image/exif/Make</summaryProperty>
+<summaryProperty>properties/image/exif/ShutterSpeedValue</summaryProperty>
+<summaryProperty>properties/image/exif/ApertureValue</summaryProperty>
+<summaryProperty>properties/image/exif/ISOSpeedRatings</summaryProperty>
+<!-- Below properties can be encoded as either sub-elements or attibutes of
+an rdf:Description element, so they are duplicated here to cover both cases -->
+<summaryProperty>properties/image/x:xmpmeta/rdf:RDF/rdf:Description/photoshop:Headline</summaryProperty>
+<summaryProperty>properties/image/x:xmpmeta/rdf:RDF/rdf:Description/photoshop:Credit</summaryProperty>
+<summaryProperty>properties/image/x:xmpmeta/rdf:RDF/rdf:Description/@photoshop:Headline</summaryProperty>
+<summaryProperty>properties/image/x:xmpmeta/rdf:RDF/rdf:Description/@photoshop:Credit</summaryProperty>
 
-<!-- Schematron schema definition -->
-<schema>beeldstudio-retro.sch</schema>
+<!-- Schematron schema definitions -->
+
+<schema>mh-2025-tiff-600.sch</schema>
 
 </profile>
 ```
@@ -147,8 +158,9 @@ A profile is an XML file that defines how a digitisation batch is evaluated. Her
 The profile is made up of the following components:
 
 1. One or more *extension* elements, which tell imgquad what file extensions to look for. Imgquad handles file extensions in a case-insensitive way, so *tif* covers both "rubbish.tif" and "rubbish.TIF".
-2. One or more *summaryProperty* elements. These define the properties that are written to the summary file (see below).
-3. One or more *schema* elements, that each link a file or directory naming pattern to a Schematron file (explained in the next section).
+2. Zero or more *ns* elements, each of which maps a namespace prefix to its corresponding uri.
+3. One or more *summaryProperty* elements, which define the properties that are written to the summary file. Each summary property is expressed as an xpath expression. 
+4. One or more *schema* elements, that each link a file or directory naming pattern to a Schematron file (explained in the next section).
 
 In the example, there's only one  *schema* element, which is used for all processed images. Optionally, each *schema* element may contain *type*, *match* and *pattern* attributes, which define how a schema is linked to file or directory names inside the batch:
 
@@ -164,15 +176,15 @@ Currently the following profiles are included:
 
 |Profile|Description|
 |:--|:--|
-|beeldstudio-retro.xml|Profile for KB Beeldstudio retro batches of digitised medieval manuscripts.|
+|mh-2025-tiff.xml|Profile for digitised medieval manuscripts.|
 
 ## Schemas
 
 Schemas contain the Schematron rules on which the quality assessment is based. Some background information about this type of rule-based validation can be found in [this blog post](https://www.bitsgalore.org/2012/09/04/automated-assessment-jp2-against-technical-profile). Currently the following schemas are included:
 
-### beeldstudio-retro.sch
+### mh-2025-tiff-600.sch
 
-This is a schema for KB Beeldstudio retro batches of digitised medieval manuscripts.
+This is a schema for digitised medieval manuscripts.
 
 <!--
 TODO, add description
@@ -194,19 +206,7 @@ Imgquad reports the following output:
 
 ### Comprehensive output file (XML)
 
-Imgquad generates one or more comprehensive output files in XML format. For each image, these contain all extracted properties, as well a the Schematron report and the assessment status. <!-- TODO add example file [Here's an example file](./examples/pq_batchtest_001.xml).-->
-
-Since these files can get really large, Imgquad splits the results across multiple output files, using the following naming convention:
-
-- iq_mybatch_001.xml
-- iq_mybatch_002.xml
-- etcetera
-
-By default Imgquad limits the number of reported images for each output file to 1000, after which it creates a new file. This behaviour can be changed by using the *--maxfiles* (alias *-x*) option. For example, the command below will limit the number of images per output file to 1 (so each image will have its dedicated output file):
-
-```
-imgquad process beeldstudio-retro.xml ./mybatch -x 1
-```
+For each batch, Imgquad generates one comprehensive output file in XML format. This file contains, for each image, all extracted properties, as well as the Schematron report and the assessment status. <!-- TODO add example file [Here's an example file](./examples/pq_batchtest_001.xml).-->
 
 ### Summary file (CSV)
 
