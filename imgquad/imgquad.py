@@ -271,6 +271,9 @@ def main():
     # Get file extensions, summary properties schema patterns and locations from profile
     extensions, namespaces, summaryProperties, schemas = schematron.readProfile(profile, schemasDir)
 
+    # Add Schematron namespace definition
+    namespaces["svrl"] = "http://purl.oclc.org/dsdl/svrl"
+
     if len(extensions) == 0:
         msg = ("no file extensions defined in profile")
         shared.errorExit(msg)
@@ -285,7 +288,7 @@ def main():
         propertyName = property.split('/')[-1]
         propertyNames.append(propertyName)
 
-    summaryHeadings = ["file", "validationSuccess", "validationOutcome"] + propertyNames
+    summaryHeadings = ["file", "validationSuccess", "validationOutcome", "validationErrors"] + propertyNames
 
     with open(summaryFile, 'w', newline='', encoding='utf-8') as fSum:
         writer = csv.writer(fSum, delimiter=delimiter)
@@ -316,8 +319,15 @@ def main():
                     propertyValue = findEltValue(fileResult, property, namespaces)
                     propValues.append(propertyValue)
 
+                validationErrors = []
+                
+                failedAsserts = fileResult.xpath("schematronReport/svrl:schematron-output/svrl:failed-assert/svrl:text", namespaces=namespaces)
+                for failedAssert in failedAsserts:
+                    validationErrors.append(failedAssert.text)
+                validationErrorsString = '|'.join(validationErrors)
+                
                 writer = csv.writer(fSum, delimiter=delimiter)
-                myRow = [myFile, validationSuccess, validationOutcome] + propValues
+                myRow = [myFile, validationSuccess, validationOutcome, validationErrorsString] + propValues
                 writer.writerow(myRow)
             # Convert output to XML and add to output file
             outXML = etree.tostring(fileResult,
