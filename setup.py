@@ -21,7 +21,6 @@ def find_version(*file_paths):
 
 INSTALL_REQUIRES = ['setuptools',
                     'lxml',
-                    'defusedxml', 
                     'pillow>=9.0.0']
 PYTHON_REQUIRES = '>=3.8, <4'
 
@@ -36,7 +35,7 @@ setup(name='imgquad',
       install_requires=INSTALL_REQUIRES,
       python_requires=PYTHON_REQUIRES,
       platforms=['POSIX', 'Windows'],
-      description='PDF QUality Assessment for Digitisation batches',
+      description='IMaGe QUality Assessment for Digitisation batches',
       long_description=README_TEXT,
       long_description_content_type='text/markdown',
       author='Johan van der Knijff',
