@@ -131,7 +131,6 @@ A profile is an XML file that defines how a digitisation batch is evaluated. Her
 <summaryProperty>properties/image/tiff/ImageLength</summaryProperty>
 <summaryProperty>properties/image/tiff/BitsPerSample</summaryProperty>
 <summaryProperty>properties/image/tiff/Copyright</summaryProperty>
-<summaryProperty>properties/image/exif/ColorSpace</summaryProperty>
 <summaryProperty>properties/image/exif/Compression</summaryProperty>
 <summaryProperty>properties/image/exif/Software</summaryProperty>
 <summaryProperty>properties/image/exif/DateTimeOriginal</summaryProperty>
@@ -201,8 +200,6 @@ This is a schema for digitised medieval manuscripts. It includes the following c
 |BitsPerSample|'8 8 8'|
 |ICCProfile TIFF tag|tag exists|
 |Copyright TIFF tag|tag exists|
-|ColorSpace EXIF tag|tag exists|
-|ColorSpace|65535 (Uncalibrated)|
 |Compression EXIF tag|tag exists|
 |Compression|1 (Uncompressed)|
 |Software EXIF tag|tag exists|

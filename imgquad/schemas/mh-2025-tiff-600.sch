@@ -43,8 +43,10 @@
     <!-- Checks at exif tag level -->
     <s:rule context="//properties/image/exif">
         <!-- Colourspace checks -->
+        <!--
         <s:assert test="(count(ColorSpace) &gt; 0)">Missing ColorSpace tag</s:assert>
         <s:assert test="(ColorSpace = 65535)">Unexpected ColorSpace value</s:assert>
+        -->
          <!-- Compression type checks -->
          <s:assert test="(count(Compression) &gt; 0)">Missing Compression tag</s:assert>
         <s:assert test="(Compression = 1)">Unexpected Compression value</s:assert>
