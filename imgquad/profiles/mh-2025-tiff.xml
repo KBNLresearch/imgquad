@@ -23,9 +23,6 @@
 <summaryProperty>properties/image/tiff/ImageLength</summaryProperty>
 <summaryProperty>properties/image/tiff/BitsPerSample</summaryProperty>
 <summaryProperty>properties/image/tiff/Copyright</summaryProperty>
-<!--
-<summaryProperty>properties/image/exif/ColorSpace</summaryProperty>
--->
 <summaryProperty>properties/image/exif/Compression</summaryProperty>
 <summaryProperty>properties/image/exif/Software</summaryProperty>
 <summaryProperty>properties/image/exif/DateTimeOriginal</summaryProperty>
