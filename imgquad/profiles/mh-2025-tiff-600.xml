@@ -2,7 +2,7 @@
 
 <profile>
 
-<!-- Middeleeuwse Handschriften, 2025 specs (TIFF)-->
+<!-- Middeleeuwse Handschriften, 2025 specs (TIFF, 600 ppi)-->
 
 <!-- File extensions that will be processed (case insensitive) -->
 <extension>tif</extension>
