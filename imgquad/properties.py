@@ -190,7 +190,7 @@ def getImageProperties(image):
             tiffElt = etree.Element(str(tag))
 
             # Don't include values of below tags
-            if tag not in ['PhotoshopInfo', 'ICCProfile', 'IptcNaaInfo', 'XMP']:
+            if tag not in ['PhotoshopInfo', 'ICCProfile', 'IptcNaaInfo', 'XMP', 'ImageSourceData'] and isinstance(d, tuple):
                 # extracted value is tuple, so reformat as spece-delimited string
                 v = ''
                 if tag not in ['XResolution', 'YResolution']:
