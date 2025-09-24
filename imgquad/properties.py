@@ -204,6 +204,7 @@ def getImageProperties(image):
                         den = d[0][1]
                         v = str(num/den)
                     except exception:
+                        raise
                         pass
 
                 tiffElt.text = v.strip()
@@ -217,13 +218,17 @@ def getImageProperties(image):
     # https://stackoverflow.com/a/75357594/1209004
 
     for k, v in propsExif.items():
-        tag = TAGS_EXIF.get(k, k)
-        exifElt = etree.Element(str(tag))
-        if tag not in ['XMLPacket', 'InterColorProfile', 'IPTCNAA', 'ImageResources']:
-            # Don't include content of these tags as text
-            exifElt.text = str(v)
+        try:
+            # This exception handler deals with any tags that Pillow doesn't recognize
+            tag = TAGS_EXIF.get(k, k)
+            exifElt = etree.Element(str(tag))
+            if tag not in ['XMLPacket', 'InterColorProfile', 'IPTCNAA', 'ImageResources']:
+                # Don't include content of these tags as text
+                exifElt.text = str(v)
 
-        propsExifElt.append(exifElt)
+            propsExifElt.append(exifElt)
+        except ValueError:
+            pass
 
     for ifd_id in IFD:
         # Iterate over image file directories
