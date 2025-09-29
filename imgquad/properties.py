@@ -96,6 +96,7 @@ def getProperties(file):
         ex.text = str(e)
         propertiesElt.append(exceptionsFileElt)
         logging.warning(("while opening image: {}").format(str(e)))
+        raise
         return propertiesElt
 
     return propertiesElt
@@ -255,16 +256,21 @@ def getImageProperties(image):
     # that is difficult to work with for our purposes 
     # See: https://github.com/python-pillow/Pillow/issues/5076#issuecomment-2119966091
     # this only works for TIFF!
+    containsXMP = False
     if image.format == "TIFF":
-        xmp = image.tag_v2[700].decode('utf-8')
-        # Convert to Element object
-        propsXMPElt = etree.fromstring(xmp)
+        try:
+            xmp = image.tag_v2[700].decode('utf-8')
+            # Convert to Element object
+            propsXMPElt = etree.fromstring(xmp)
+            containsXMP = True
+        except KeyError:
+            pass
 
     propsImageElt = dictionaryToElt('image', propsImage)
     if image.format == "TIFF":
         propsImageElt.append(propsTIFFElt)
     propsImageElt.append(propsExifElt)
-    if image.format == "TIFF":
+    if containsXMP:
         propsImageElt.append(propsXMPElt)
     propsImageElt.append(exceptionsImageElt)
 
