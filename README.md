@@ -200,6 +200,8 @@ This is a schema for digitised medieval manuscripts. It includes the following c
 |BitsPerSample|'8 8 8'|
 |ICCProfile TIFF tag|tag exists|
 |Copyright TIFF tag|tag exists|
+|NewSubfileType TIFF tag|at most 1 instance of this tag|
+|SubIFDs TIFF tag|tag does not exist|
 |Compression EXIF tag|tag exists|
 |Compression|1 (Uncompressed)|
 |Software EXIF tag|tag exists|
