@@ -38,6 +38,10 @@
         <s:assert test="(count(ICCProfile) &gt; 0)">Missing ICCProfile tag</s:assert>
         <!-- Check on Copyright tag -->
         <s:assert test="(count(Copyright) &gt; 0)">Missing Copyright tag</s:assert>
+        <!-- Check image contains no more than 1 NewSubFileType tag -->
+        <s:assert test="(count(NewSubfileType) &lt; 2)">Multiple NewSubfileType tags</s:assert>
+        <!-- Check image doesn't contain SubIFDs tag -->
+        <s:assert test="(count(SubIFDs) = 0)">SubIFDs tag is not allowed</s:assert>
     </s:rule>
 
     <!-- Checks at exif tag level -->
