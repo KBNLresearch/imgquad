@@ -206,7 +206,7 @@ This is a schema for digitised medieval manuscripts. It includes the following c
 |Compression EXIF tag|tag exists|
 |Compression|1 (Uncompressed)|
 |Software EXIF tag|tag exists|
-|Software|not empty|
+|Software value|not empty|
 |DateTimeOriginal EXIF tag|tag exists|
 |DateTimeOriginal value|not empty|
 |Model EXIF tag|tag exists|
