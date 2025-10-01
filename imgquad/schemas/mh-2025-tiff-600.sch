@@ -36,8 +36,9 @@
         <s:assert test="(BitsPerSample = '8 8 8')">Wrong BitsPerSample value</s:assert>
         <!-- Check on ICCProfile tag -->
         <s:assert test="(count(ICCProfile) &gt; 0)">Missing ICCProfile tag</s:assert>
-        <!-- Check on Copyright tag -->
+        <!-- Checks on Copyright tag -->
         <s:assert test="(count(Copyright) &gt; 0)">Missing Copyright tag</s:assert>
+        <s:assert test="(Copyright != '')">Empty Copyright tag</s:assert>
         <!-- Check image contains no more than 1 NewSubFileType tag -->
         <s:assert test="(count(NewSubfileType) &lt; 2)">Multiple NewSubfileType tags</s:assert>
         <!-- Check image doesn't contain SubIFDs tag -->
@@ -52,12 +53,19 @@
         <s:assert test="(Compression = 1)">Unexpected Compression value</s:assert>
         <!-- Checks for capture and camera related tags -->
         <s:assert test="(count(Software) &gt; 0)">Missing Software tag</s:assert>
+        <s:assert test="(Software != '')">Empty Software tag</s:assert>
         <s:assert test="(count(DateTimeOriginal) &gt; 0)">Missing DateTimeOriginal tag</s:assert>
+        <s:assert test="(DateTimeOriginal != '')">Empty DateTimeOriginal tag</s:assert>
         <s:assert test="(count(Model) &gt; 0)">Missing Model tag</s:assert>
+        <s:assert test="(Model != '')">Empty Model tag</s:assert>
         <s:assert test="(count(Make) &gt; 0)">Missing Make tag</s:assert>
+        <s:assert test="(Make != '')">Empty Make tag</s:assert>
         <s:assert test="(count(ShutterSpeedValue) &gt; 0)">Missing ShutterSpeedValue tag</s:assert>
+        <s:assert test="(ShutterSpeedValue != '')">Empty ShutterSpeedValue tag</s:assert>
         <s:assert test="(count(ApertureValue) &gt; 0)">Missing ApertureValue tag</s:assert>
+        <s:assert test="(ApertureValue != '')">Empty ApertureValue tag</s:assert>
         <s:assert test="(count(ISOSpeedRatings) &gt; 0)">Missing ISOSpeedRatings tag</s:assert>
+        <s:assert test="(ISOSpeedRatings != '')">Empty ISOSpeedRatings tag</s:assert>
     </s:rule>
 
     <!-- Checks for descriptive metadata in XMP -->
