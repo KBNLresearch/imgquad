@@ -64,7 +64,9 @@
         <!-- Checks on Headline and Credit elements. These can be defined as either dedicated sub-elements of rdf:Decription,
         or as attributes of rdf:Description, so we need to check for both -->
         <s:assert test="(count(rdf:RDF/rdf:Description/photoshop:Headline) &gt; 0 or count(rdf:RDF/rdf:Description/@photoshop:Headline) &gt; 0)">Missing Headline element</s:assert>
+        <s:assert test="((rdf:RDF/rdf:Description/photoshop:Headline != '') or (rdf:RDF/rdf:Description/@photoshop:Headline != ''))">Empty Headline element</s:assert>
         <s:assert test="(count(rdf:RDF/rdf:Description/photoshop:Credit) &gt; 0 or count(rdf:RDF/rdf:Description/@photoshop:Credit) &gt; 0)">Missing Credit element</s:assert>
+        <s:assert test="((rdf:RDF/rdf:Description/photoshop:Credit != '') or (rdf:RDF/rdf:Description/@photoshop:Credit != ''))">Empty Credit element</s:assert>
     </s:rule>
 
     <!-- Check for exceptions -->
