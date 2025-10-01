@@ -190,31 +190,50 @@ This is a schema for digitised medieval manuscripts. It includes the following c
 |ICC profile name|eciRGB v2|
 |XResolution TIFF tag|tag exists|
 |YResolution TIFF tag|tag exists|
-|XResolution|600 (+/- 1) |
-|YResolution|600 (+/- 1) |
+|XResolution value|600 (+/- 1) |
+|YResolution value|600 (+/- 1) |
 |ResolutionUnit TIFF tag|tag exists|
-|ResolutionUnit|2 (inches)|
+|ResolutionUnit value|2 (inches)|
 |ImageWidth TIFF tag|tag exists|
 |ImageLength TIFF tag|tag exists|
 |BitsPerSample TIFF tag|tag exists|
-|BitsPerSample|'8 8 8'|
+|BitsPerSample value|'8 8 8'|
 |ICCProfile TIFF tag|tag exists|
 |Copyright TIFF tag|tag exists|
+|Copyright value|not empty|
 |NewSubfileType TIFF tag|at most 1 instance of this tag|
 |SubIFDs TIFF tag|tag does not exist|
 |Compression EXIF tag|tag exists|
 |Compression|1 (Uncompressed)|
 |Software EXIF tag|tag exists|
+|Software|not empty|
 |DateTimeOriginal EXIF tag|tag exists|
+|DateTimeOriginal value|not empty|
 |Model EXIF tag|tag exists|
+|Model value|not empty|
 |Make EXIF tag|tag exists|
+|Make value|not empty|
 |ShutterSpeedValue EXIF tag|tag exists|
+|ShutterSpeedValue value|not empty|
 |ApertureValue EXIF tag|tag exists|
+|ApertureValue value|not empty|
 |ISOSpeedRatings EXIF tag|tag exists|
+|ISOSpeedRatings value|not empty|
 |photoshop:Headline|defined in XMP metadata as either element `rdf:RDF/rdf:Description/photoshop:Headline`, or attribute `rdf:RDF/rdf:Description/@photoshop:Headline`|
+|photoshop:Headline value|not empty|
 |photoshop:Credit|defined in XMP metadata as either element `rdf:RDF/rdf:Description/photoshop:Credit`, or attribute `rdf:RDF/rdf:Description/@photoshop:Credit`|
+|photoshop:Credit value|not empty|
 
 The schema also includes an additional check on any exceptions that occurred while parsing the image, as this may indicate a corrupted file.
+
+### mh-2025-tiff-300.sch
+
+This schema is identical to the mh-2025-tiff-600.sch schema, except for the checks on the XResolution and YResolution values:
+
+|Check|Value|
+|:---|:---|
+|XResolution value|300 (+/- 1) |
+|YResolution value|300 (+/- 1) |
 
 ## Output
 
