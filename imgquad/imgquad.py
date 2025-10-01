@@ -20,7 +20,7 @@ from . import properties
 from . import schematron
 from . import shared
 
-__version__ = "0.1.4"
+__version__ = "0.1.5"
 
 # Create parser
 parser = argparse.ArgumentParser(description="IMaGe QUality Assessment for Digitisation batches")
