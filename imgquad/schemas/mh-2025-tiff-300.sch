@@ -36,9 +36,8 @@
         <s:assert test="(BitsPerSample = '8 8 8')">Wrong BitsPerSample value</s:assert>
         <!-- Check on ICCProfile tag -->
         <s:assert test="(count(ICCProfile) &gt; 0)">Missing ICCProfile tag</s:assert>
-        <!-- Checks on Copyright tag -->
+        <!-- Check on Copyright tag -->
         <s:assert test="(count(Copyright) &gt; 0)">Missing Copyright tag</s:assert>
-        <s:assert test="(Copyright != '')">Empty Copyright tag</s:assert>
         <!-- Check image contains no more than 1 NewSubFileType tag -->
         <s:assert test="(count(NewSubfileType) &lt; 2)">Multiple NewSubfileType tags</s:assert>
         <!-- Check image doesn't contain SubIFDs tag -->
