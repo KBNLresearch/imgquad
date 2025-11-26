@@ -184,13 +184,10 @@ def getImageProperties(image):
         # https://stackoverflow.com/a/75357594/1209004 and
         # https://stackoverflow.com/a/46910779
 
-        #propsTIFF = {TAGS_TIFF[key] : image.tag[key] for key in image.tag.keys()}
-
         propsTIFF = {}
         for key in image.tag.keys():
             if key in TAGS_TIFF:
                 propsTIFF[TAGS_TIFF[key]] = image.tag[key]
-
 
         for k, d in propsTIFF.items():
             tag = k
