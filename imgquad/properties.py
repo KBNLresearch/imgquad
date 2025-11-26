@@ -184,7 +184,13 @@ def getImageProperties(image):
         # https://stackoverflow.com/a/75357594/1209004 and
         # https://stackoverflow.com/a/46910779
 
-        propsTIFF = {TAGS_TIFF[key] : image.tag[key] for key in image.tag.keys()}
+        #propsTIFF = {TAGS_TIFF[key] : image.tag[key] for key in image.tag.keys()}
+
+        propsTIFF = {}
+        for key in image.tag.keys():
+            if key in TAGS_TIFF:
+                propsTIFF[TAGS_TIFF[key]] = image.tag[key]
+
 
         for k, d in propsTIFF.items():
             tag = k
@@ -250,6 +256,8 @@ def getImageProperties(image):
                 exifElt.text = str(v)
                 propsExifElt.append(exifElt)
         except KeyError:
+            pass
+        except ValueError:
             pass
     
     # Read XMP metadata as string since dedicated getxmp function returns dictionary
