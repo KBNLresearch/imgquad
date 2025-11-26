@@ -91,11 +91,15 @@ def getFilesFromTree(rootDir, extensions):
             thisDirectory = os.path.join(dirname, subdirname)
 
         for filename in filenames:
-            thisFile = os.path.join(dirname, filename)
-            thisExtension = os.path.splitext(thisFile)[1]
-            thisExtension = thisExtension.upper().strip('.')
-            if extensions[0].strip() == '*' or thisExtension in extensions:
-                filesList.append(thisFile)
+            if filename.startswith("._"):
+                # Ignore AppleDouble resource fork files (identified here by name)
+                pass
+            else:
+                thisFile = os.path.join(dirname, filename)
+                thisExtension = os.path.splitext(thisFile)[1]
+                thisExtension = thisExtension.upper().strip('.')
+                if extensions[0].strip() == '*' or thisExtension in extensions:
+                    filesList.append(thisFile)
     return filesList
 
 

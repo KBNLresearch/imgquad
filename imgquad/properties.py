@@ -96,7 +96,7 @@ def getProperties(file):
         ex.text = str(e)
         propertiesElt.append(exceptionsFileElt)
         logging.warning(("while opening image: {}").format(str(e)))
-        raise
+        #raise
         return propertiesElt
 
     return propertiesElt
