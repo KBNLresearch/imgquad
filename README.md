@@ -27,7 +27,7 @@ On Linux and MacOS you can install uv with the following command:
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-Alternatively, you can use wget if you system doesn't have curl installed:
+Alternatively, you can use wget if your system doesn't have curl installed:
 
 ```
 wget -qO- https://astral.sh/uv/install.sh | sh
@@ -39,7 +39,7 @@ To install uv on Windows, open a Powershell terminal, and run the following comm
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-Regardless of the operating system, in some cases the installation script will update your system's configuration to make the location of the uv executable globally accessible. If this happens, just close your terminal and open a new one for these changes to take effect. Pay attention to the screen output of the installation script for any details on this.
+Regardless of the operating system, in some cases the installation script will update your system's configuration to make the location of the uv executable globally accessible. If this happens, just close your current terminal, and open a new one for these changes to take effect. Pay attention to the screen output of the installation script for any details on this.
 
 ### imgquad installation
 
