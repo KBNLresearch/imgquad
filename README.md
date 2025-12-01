@@ -9,10 +9,44 @@ These properties are serialized to a simple XML structure, which is then evaluat
 
 ## Installation
 
-Install the software with the [pip package manager](https://en.wikipedia.org/wiki/Pip_(package_manager)):
+As of 2025, [uv](https://docs.astral.sh/uv/) appears to be the most straightforward tool for installing Python applications on a variety of platforms (Linux, MacOS, Windows).
+
+### uv installation
+
+First, check if uv is installed on your system by typing the uv command in a terminal:
 
 ```
-pip install imgquad
+uv
+```
+
+If this results in a help message, uv is installed, and you can skip directly to the "imgquad installation" section below. If not, you first need to install uv.
+
+On Linux and MacOS you can install uv with the following command:
+
+```
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Alternatively, you can use wget if you system doesn't have curl installed:
+
+```
+wget -qO- https://astral.sh/uv/install.sh | sh
+```
+
+To install uv on Windows, open a Powershell terminal, and run the following command:
+
+```
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+Regardless of the operating system, in some cases the installation script will update your system's configuration to make the location of the uv executable globally accessible. If this happens, just close your terminal and open a new one for these changes to take effect. Pay attention to the screen output of the installation script for any details on this.
+
+### imgquad installation
+
+Use the following command to install imgquad (all platforms):
+
+```
+uv tool install imgquad
 ```
 
 Then run imgquad once:
@@ -23,10 +57,18 @@ imgquad
 
 Depending on your system, imgquad will create a folder named *imgquad* in one of the following locations: 
 
-- For Linux, it will use the location defined by environment variable *$XDG_CONFIG_HOME*. If this variable is not set, it will use the *.config* directory in the user's home folder (e.g. `/home/johan/.config/imgquad`). Note that the *.config* directory is hidden by default.
+- For Linux and MacOS, it will use the location defined by environment variable *$XDG_CONFIG_HOME*. If this variable is not set, it will use the *.config* directory in the user's home folder (e.g. `/home/johan/.config/imgquad`). Note that the *.config* directory is hidden by default.
 - For Windows, it will use the *AppData\Local* folder (e.g. `C:\Users\johan\AppData\Local\imgquad`).
 
 The folder contains two subdirectories named *profiles* and *schemas*, which are explained in the "Profiles" and "Schemas" sections below.
+
+### upgrade imgquad
+
+Use the following command to upgrade an existing imgquad installation to the latest version:
+
+```
+uv tool upgrade imgquad
+```
 
 ## Command-line syntax
 
